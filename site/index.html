@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/theme.js"></script>
+  <title>PodWin | WSLc containers. Native Windows.</title>
+  <meta name="description" content="Meet PodWin, a native Windows 11 app for WSLc container management. Explore the foundation preview, read the docs, and see what's next.">
+  <meta name="theme-color" content="#101c30">
+  <link rel="canonical" href="https://podwin.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PodWin">
+  <meta property="og:title" content="PodWin | WSLc containers. Native Windows.">
+  <meta property="og:description" content="A Windows-native home for your WSLc containers. Explore the foundation preview.">
+  <meta property="og:url" content="https://podwin.app/">
+  <meta property="og:image" content="https://podwin.app/assets/podwin-banner.png">
+  <meta property="og:image:alt" content="The blue and teal PodWin capsule logo and wordmark.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./" aria-label="PodWin home">
+        <img class="brand-dark" src="assets/podwin-horizontal-dark.png" alt="PodWin" width="1600" height="480">
+        <img class="brand-light" src="assets/podwin-horizontal-light.png" alt="PodWin" width="1600" height="480">
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#preview">The preview</a>
+        <a href="docs/">Docs</a>
+        <a href="#roadmap">Roadmap</a>
+        <a class="nav-github" href="https://github.com/swigerb/PodWin" title="Application repository; access is currently restricted">GitHub <span aria-hidden="true">&#8599;</span></a>
+      </nav>
+      <button class="theme-toggle" type="button" aria-label="Switch to light theme" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+      </button>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> BUILT FOR WINDOWS. POWERED BY WSLc.</p>
+        <h1 id="hero-title">Your containers.<br>Right at home<br><span class="gradient-text">on Windows.</span></h1>
+        <p class="hero-description">Meet PodWin. A native Windows 11 home for WSLc container management, built with WinUI 3 and Fluent design.</p>
+        <div class="button-row">
+          <a class="button button-primary" href="docs/">Explore the preview <span aria-hidden="true">&#8594;</span></a>
+          <a class="button button-secondary" href="#roadmap">See what's next</a>
+        </div>
+        <p class="hero-note"><span class="small-tag">FOUNDATION PREVIEW</span> In development. No public installer yet.</p>
+      </div>
+      <div class="hero-art">
+        <div class="orbit orbit-one" aria-hidden="true"></div>
+        <div class="orbit orbit-two" aria-hidden="true"></div>
+        <span class="art-label art-label-top"><span class="status-dot" aria-hidden="true"></span> WINDOWS-NATIVE</span>
+        <img class="hero-icon" src="assets/podwin-icon-512.png" alt="PodWin's blue and teal capsule, holding four container units." width="512" height="512" fetchpriority="high">
+        <div class="art-caption"><span class="caption-line" aria-hidden="true"></span> A little more Windows. A lot less friction.</div>
+      </div>
+    </section>
+
+    <div class="platform-strip">
+      <div class="container platform-inner">
+        <span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M1 3l8-1v7H1zm10-1l8-1v8h-8zM1 11h8v7l-8-1zm10 0h8v8l-8-1z"/></svg> Windows 11</span>
+        <span>WinUI 3 <span class="strip-plus">+</span> Fluent design</span>
+        <span>WSLc runtime</span>
+        <span>Designed to be free to use</span>
+      </div>
+    </div>
+
+    <section class="section container" id="preview" aria-labelledby="preview-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">A FAMILIAR PLACE TO START</p><h2 id="preview-title">A Windows app.<br>Not another browser tab.</h2></div>
+        <p>A focused native shell for understanding your environment. Start with discovery, connect on your terms, and see what's actually there.</p>
+      </div>
+      <div class="preview-frame">
+        <div class="preview-titlebar"><img src="assets/favicon-32.png" alt="" width="24" height="24"><span>PodWin</span><span class="preview-badge">FOUNDATION PREVIEW</span><span class="window-chrome" aria-hidden="true">&#8212; &nbsp; &#9633; &nbsp; &#215;</span></div>
+        <div class="preview-body">
+          <div class="preview-sidebar">
+            <span class="sidebar-label">YOUR ENVIRONMENT</span>
+            <div class="demo-tabs" role="tablist" aria-label="Illustrated inventory" hidden>
+              <button id="containers-tab" role="tab" aria-selected="true" aria-controls="containers-panel" tabindex="0" type="button"><span aria-hidden="true">&#9638;</span> Containers</button>
+              <button id="images-tab" role="tab" aria-selected="false" aria-controls="images-panel" tabindex="-1" type="button"><span aria-hidden="true">&#9639;</span> Images</button>
+            </div>
+            <div class="sidebar-footer"><span class="status-dot" aria-hidden="true"></span> WSLc, not Docker Engine</div>
+          </div>
+          <div class="preview-content">
+            <div class="inventory-heading"><div><p class="eyebrow">AN HONEST VIEW OF YOUR ENVIRONMENT</p><h3>Clarity comes first.</h3></div><span class="session-label">Session: example-dev</span></div>
+            <p class="sample-notice">Interactive illustration with sample data. This is not a screenshot or a live runtime connection.</p>
+            <div id="containers-panel" class="inventory-panel" role="tabpanel" aria-labelledby="containers-tab" tabindex="0">
+              <div class="inventory-row inventory-labels"><span>CONTAINER / IMAGE</span><span>STATE</span></div>
+              <div class="inventory-row"><div><strong>web-preview</strong><code>nginx:alpine</code></div><span class="state state-running"><span aria-hidden="true">&#9679;</span> Running</span></div>
+              <div class="inventory-row"><div><strong>development-api</strong><code>example-api:dev</code></div><span class="state state-running"><span aria-hidden="true">&#9679;</span> Running</span></div>
+              <div class="inventory-row"><div><strong>test-database</strong><code>postgres:alpine</code></div><span class="state state-stopped"><span aria-hidden="true">&#9679;</span> Stopped</span></div>
+            </div>
+            <div id="images-panel" class="inventory-panel" role="tabpanel" aria-labelledby="images-tab" tabindex="0" hidden>
+              <div class="inventory-row inventory-labels"><span>IMAGE</span><span>TAG</span></div>
+              <div class="inventory-row"><div><strong>nginx</strong><code>Sample local image</code></div><span class="state">alpine</span></div>
+              <div class="inventory-row"><div><strong>example-api</strong><code>Sample local image</code></div><span class="state">dev</span></div>
+              <div class="inventory-row"><div><strong>postgres</strong><code>Sample local image</code></div><span class="state">alpine</span></div>
+            </div>
+            <div class="inventory-footer"><span class="status-dot" aria-hidden="true"></span> Discover first. Connect with consent. Read explicitly.</div>
+          </div>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card"><span class="feature-number">01 / NATIVE</span><h3>Feels like it belongs.</h3><p>WinUI 3 controls, Mica, and light, dark, or Windows-managed appearance. A real Windows desktop app, not an embedded web UI.</p></article>
+        <article class="feature-card"><span class="feature-number">02 / EXPLICIT</span><h3>Your session. Your call.</h3><p>Discover existing WSLc sessions before connecting. Connections require confirmation because even an inventory read can activate a session VM.</p></article>
+        <article class="feature-card"><span class="feature-number">03 / FOCUSED</span><h3>See what's there.</h3><p>Browse containers and images, filter the container inventory, and inspect bounded log snapshots. Errors stay visible, never disguised as empty results.</p></article>
+      </div>
+    </section>
+
+    <section class="principles-section">
+      <div class="container principles-inner">
+        <div><p class="eyebrow">SMALL FOOTPRINT. CLEAR BOUNDARIES.</p><h2>Local-first.<br>Deliberate by design.</h2></div>
+        <div class="principles-list">
+          <div><span aria-hidden="true">+</span><p><strong>No surprise changes.</strong> The preview does not install WSL, create sessions, or modify your containers.</p></div>
+          <div><span aria-hidden="true">+</span><p><strong>No app telemetry or saved container logs.</strong> WSLc is a separate runtime with its own data handling.</p></div>
+          <div><span aria-hidden="true">+</span><p><strong>No compatibility theater.</strong> PodWin works with WSLc, not the Docker Engine socket. Compose execution is still on the roadmap.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="roadmap" aria-labelledby="roadmap-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">THE ROAD AHEAD</p><h2 id="roadmap-title">A solid foundation.<br>Then the everyday essentials.</h2></div>
+        <p>Early software deserves clear expectations. Here's what the foundation supports, and what is still being built. No release dates promised.</p>
+      </div>
+      <div class="roadmap-grid">
+        <article class="roadmap-card roadmap-current">
+          <span class="stage-label"><span class="status-dot" aria-hidden="true"></span> CURRENT FOUNDATION</span>
+          <h3>Look around.</h3>
+          <ul><li>Native Windows shell and themes</li><li>Runtime discovery and session selection</li><li>Consent-based connection</li><li>Container and image inventories</li><li>Filtering and bounded log snapshots</li></ul>
+        </article>
+        <article class="roadmap-card">
+          <span class="stage-label">PLANNED / WORKFLOWS</span>
+          <h3>Take control.</h3>
+          <ul><li>Session creation and lifetime management</li><li>Image pull and container lifecycle</li><li>Streaming logs and terminal access</li><li>Measured resource statistics</li><li>Volume, network, and registry workflows</li></ul>
+        </article>
+        <article class="roadmap-card">
+          <span class="stage-label">PLANNED / RELEASE READINESS</span>
+          <h3>Ship thoughtfully.</h3>
+          <ul><li>Compose planning and compatibility checks</li><li>Signed Velopack releases and updates</li><li>Separate Microsoft Store MSIX channel</li><li>ARM64 and clean-machine qualification</li><li>Accessibility and installation acceptance</li></ul>
+        </article>
+      </div>
+      <p class="section-note">Kubernetes, Docker API compatibility, and full Docker Compose parity are not promised. <a href="docs/#boundaries">Read the scope and limitations <span aria-hidden="true">&#8594;</span></a></p>
+    </section>
+
+    <section class="section container faq-section" aria-labelledby="faq-title">
+      <div><p class="eyebrow">A FEW THINGS WORTH KNOWING</p><h2 id="faq-title">Before you dive in.</h2></div>
+      <div class="faq-list">
+        <details><summary>Can I download PodWin today?</summary><p>Not yet. PodWin is a foundation preview with no public installer or Microsoft Store listing. Signed releases, update handling, and clean-machine validation remain release gates. The docs describe the current development workflow.</p></details>
+        <details><summary>Is this a replacement for Docker Desktop?</summary><p>Not today. PodWin targets WSLc containers and currently focuses on discovery and read-only inventory workflows. It does not connect to Docker Engine, and Docker Desktop containers will not appear here.</p></details>
+        <details><summary>What do I need to run it?</summary><p>Windows 11 22H2 or later. WSLc 3.0.3 or later is the initial runtime/schema baseline for container management. Building the app requires the repository's pinned .NET SDK. See the <a href="docs/#requirements">requirements</a>.</p></details>
+        <details><summary>Is PodWin free and open source?</summary><p>PodWin is intended to be free to use. The project repository is currently private and a source-code license has not been selected, so it is not being presented as open-source software yet.</p></details>
+      </div>
+    </section>
+
+    <section class="container closing-section" aria-labelledby="closing-title">
+      <img src="assets/podwin-icon-512.png" alt="" width="88" height="88" loading="lazy">
+      <p class="eyebrow">A NATIVE HOME FOR WHAT'S NEXT</p>
+      <h2 id="closing-title">Make yourself at home.</h2>
+      <p>Get to know the foundation, understand the boundaries,<br class="desktop-break"> and follow PodWin as it takes shape.</p>
+      <div class="button-row"><a class="button button-primary" href="docs/">Read the docs <span aria-hidden="true">&#8594;</span></a><a class="button button-secondary" href="https://github.com/swigerb/PodWin">Project on GitHub <span aria-hidden="true">&#8599;</span></a></div>
+      <p class="fine-print">GitHub repository access is currently restricted.</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-inner"><a class="footer-wordmark" href="./">Pod<span>Win</span></a><p>An independent Windows app. Not affiliated with or endorsed by Microsoft.</p><nav aria-label="Footer navigation"><a href="docs/">Docs</a><a href="docs/#privacy">Privacy</a><a href="https://github.com/swigerb/podwin.app">Site source</a></nav></div>
+  </footer>
+</body>
+</html>

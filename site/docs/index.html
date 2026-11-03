@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="../assets/theme.js"></script>
+  <title>Documentation | PodWin</title>
+  <meta name="description" content="PodWin foundation preview documentation: Windows and WSLc requirements, development setup, session safety, supported workflows, and limitations.">
+  <meta name="theme-color" content="#101c30">
+  <link rel="canonical" href="https://podwin.app/docs/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PodWin">
+  <meta property="og:title" content="Documentation | PodWin">
+  <meta property="og:description" content="Get to know the PodWin foundation preview. Requirements, development setup, supported workflows, and honest boundaries.">
+  <meta property="og:url" content="https://podwin.app/docs/">
+  <meta property="og:image" content="https://podwin.app/assets/podwin-banner.png">
+  <meta property="og:image:alt" content="The blue and teal PodWin capsule logo and wordmark.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../assets/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../assets/site.css">
+  <script src="../assets/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../" aria-label="PodWin home"><img class="brand-dark" src="../assets/podwin-horizontal-dark.png" alt="PodWin" width="1600" height="480"><img class="brand-light" src="../assets/podwin-horizontal-light.png" alt="PodWin" width="1600" height="480"></a>
+      <nav aria-label="Main navigation"><a href="../#preview">The preview</a><a href="./" aria-current="page">Docs</a><a href="../#roadmap">Roadmap</a><a class="nav-github" href="https://github.com/swigerb/PodWin" title="Application repository; access is currently restricted">GitHub <span aria-hidden="true">&#8599;</span></a></nav>
+      <button class="theme-toggle" type="button" aria-label="Switch to light theme" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></button>
+    </div>
+  </header>
+  <main class="container docs-layout" id="main">
+    <nav class="docs-sidebar" aria-label="Documentation sections">
+      <p class="eyebrow">FOUNDATION DOCS</p>
+      <a href="#overview">Overview</a><a href="#requirements">Requirements</a><a href="#development">Build from source</a><a href="#first-connection">First connection</a><a href="#boundaries">Scope and limitations</a><a href="#troubleshooting">Troubleshooting</a><a href="#privacy">Privacy</a><a href="#distribution">Distribution and licensing</a><a href="#resources">Project and resources</a>
+    </nav>
+    <div class="docs-content">
+      <p class="eyebrow">PODWIN / DOCUMENTATION</p>
+      <h1>A good place to begin.</h1>
+      <p class="docs-lead">Understand the foundation before you connect. PodWin is a native Windows 11 app for WSLc container management, currently in early development.</p>
+      <div class="callout"><p><strong>Foundation preview, not a production release.</strong> No public installer, automatic update feed, or Microsoft Store listing is available. The repository is currently private; building from source requires repository access.</p></div>
+
+      <section id="overview">
+        <h2>What the preview does</h2>
+        <p>The current foundation supports runtime discovery, selection of existing WSLc sessions, confirmation-based connections, container and image inventories, container filtering, and bounded log snapshots.</p>
+        <p>The application uses native WinUI 3 controls, Mica, and light, dark, or system appearance. Appearance is selected per launch. Runtime operations are cancellable, time-bounded, and output-bounded; failures are surfaced rather than shown as empty inventories.</p>
+      </section>
+      <section id="requirements">
+        <h2>Requirements</h2>
+        <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th scope="col">Component</th><th scope="col">Current baseline</th></tr></thead><tbody>
+          <tr><td>Operating system</td><td>Windows 11 22H2 or later.</td></tr>
+          <tr><td>Container runtime</td><td>WSLc 3.0.3 or later, installed at the standard Microsoft WSL location. This is the initial reviewed output/schema baseline, not a claim that every feature requires this version.</td></tr>
+          <tr><td>Development SDK</td><td>.NET SDK 10.0.403, pinned by the repository's <code>global.json</code>. Use the pin in your checked-out revision if it changes.</td></tr>
+          <tr><td>Architecture</td><td>x64 is the first qualification target. CI cross-compiles ARM64; native ARM64 release acceptance remains a gate.</td></tr>
+        </tbody></table></div>
+        <p class="section-note">A detected CLI does not prove that the WSL components or an existing session are healthy. PodWin can still be used for dependency diagnosis without a session.</p>
+      </section>
+      <section id="development">
+        <h2>Build from source</h2>
+        <p>With access to the project repository, clone it and run these commands in a Windows PowerShell terminal. The app is self-contained when published; the SDK requirement here is for development.</p>
+        <div class="code-block">
+          <div class="code-heading"><span>POWERSHELL / DEVELOPMENT</span><button class="copy-button" type="button" data-copy="build-commands" hidden>Copy commands</button></div>
+          <pre><code id="build-commands">git clone https://github.com/swigerb/PodWin.git
+cd PodWin
+dotnet test tests\PodWin.Core.Tests\PodWin.Core.Tests.csproj
+dotnet build src\PodWin.App\PodWin.App.csproj
+&amp; .\src\PodWin.App\bin\Debug\net10.0-windows10.0.26100.0\win-x64\PodWin.exe</code></pre>
+        </div>
+        <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+        <p>The project uses public nuget.org packages. No Visual Studio extension is required. If a restore fails, see the repository README for supported troubleshooting; never disable TLS verification.</p>
+      </section>
+      <section id="first-connection">
+        <h2>Your first connection</h2>
+        <ol>
+          <li><strong>Discover.</strong> Open PodWin and discover existing WSLc sessions. Discovery does not create a session or change global WSL settings.</li>
+          <li><strong>Select.</strong> Choose the exact existing session you want to inspect. PodWin does not silently fall back to a default session.</li>
+          <li><strong>Confirm.</strong> Review the connection prompt. Reading inventory can activate an idle session's VM, so connecting is a deliberate action.</li>
+          <li><strong>Inspect.</strong> Read the container or image inventory. Filter containers by name or image, or select a container to view a bounded log snapshot.</li>
+        </ol>
+        <div class="callout"><p><strong>Logs can contain secrets.</strong> Review all log content before copying, sharing, or attaching it to an issue. A bounded snapshot is not a continuous log stream.</p></div>
+      </section>
+      <section id="boundaries">
+        <h2>Scope and limitations</h2>
+        <p>PodWin connects to WSLc, not the Docker Engine socket. Existing Docker Desktop containers will not appear in PodWin.</p>
+        <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th scope="col">Available in the foundation</th><th scope="col">Not implemented yet</th></tr></thead><tbody>
+          <tr><td>Discover and select existing sessions</td><td>Create and manage session lifetimes</td></tr>
+          <tr><td>Read container and image inventories</td><td>Pull images; create, start, stop, restart, or remove containers</td></tr>
+          <tr><td>Filter containers and read bounded logs</td><td>Streaming logs, terminal access, and resource metrics</td></tr>
+          <tr><td>Read-only, explicit-session workflows</td><td>Volumes, networks, registry login, and image build/push workflows</td></tr>
+          <tr><td>Compose compatibility intent shown in the app</td><td>Compose file parsing, validation, planning, and execution</td></tr>
+        </tbody></table></div>
+        <p class="section-note">The Compose page describes a future contract; it does not load or run Compose files. Kubernetes, Docker API compatibility, and full Docker Compose parity are not promised.</p>
+      </section>
+      <section id="troubleshooting">
+        <h2>Troubleshooting</h2>
+        <h3>WSLc is missing or discovery fails</h3>
+        <p>Check that the required WSLc runtime is installed at the standard Microsoft WSL location. PodWin does not install it for you. Follow the <a href="https://learn.microsoft.com/windows/wsl/wsl-container">official WSL container guidance</a> and use the exact diagnostic shown in the app.</p>
+        <h3>No sessions or containers are listed</h3>
+        <p>Discovery lists existing WSLc sessions only. This preview does not create them. Connect to the intended session explicitly before reading its inventory, and do not expect Docker Desktop containers to appear. A reported error is a failed read, not evidence that the session is empty.</p>
+        <h3>A read is canceled, times out, or reaches its output limit</h3>
+        <p>The process boundary deliberately caps execution time and output. Read the surfaced error and retry only when appropriate. Do not interpret a canceled or truncated operation as a complete inventory.</p>
+      </section>
+      <section id="privacy">
+        <h2>Privacy and your environment</h2>
+        <p>The current PodWin foundation does not send app telemetry, retain container logs, store registry credentials, poll in the background, automatically install runtimes, or change global WSL configuration. WSLc is a separate Microsoft runtime with its own data handling.</p>
+        <p>This website has no analytics, advertising, tracking cookies, third-party fonts, or embedded third-party scripts. The theme control operates in the current page and URL; it does not store a tracking identifier. GitHub Pages serves the site and may process request information under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>. Links to GitHub and other resources take you to those providers.</p>
+        <p>This describes current behavior, not a legal policy for an unreleased future installer or Store package. A distribution privacy policy remains a release gate.</p>
+      </section>
+      <section id="distribution">
+        <h2>Distribution and licensing</h2>
+        <p>PodWin is intended to be free to use. Its repository is currently private, and no source-code license has been selected. Do not assume an MIT license or an open-source redistribution grant.</p>
+        <p>The direct distribution design uses a per-user, self-contained Velopack installer. Startup hooks exist, but no update feed is configured and automatic apply-on-startup is disabled. Code signing and public binary release acceptance are still required.</p>
+        <p>A separate Microsoft Store MSIX channel is planned. It would exclude Velopack and use Store-managed updates. No Store identity, listing, or certification is implied.</p>
+      </section>
+      <section id="resources">
+        <h2>Project and resources</h2>
+        <ul>
+          <li><a href="https://github.com/swigerb/podwin.app">Public website source</a> and <a href="https://github.com/swigerb/podwin.app/issues">website corrections and feedback</a>. This repository contains the site only, not the application source.</li>
+          <li><a href="https://github.com/swigerb/PodWin">PodWin on GitHub</a> and <a href="https://github.com/swigerb/PodWin/issues">issue tracker</a> (currently restricted to repository collaborators).</li>
+          <li><a href="https://learn.microsoft.com/windows/wsl/wsl-container">Microsoft WSL container documentation</a> and <a href="https://wsl.dev/">WSL developer documentation</a>.</li>
+          <li><a href="https://learn.microsoft.com/windows/apps/winui/winui3/">WinUI 3</a>, <a href="https://fluent2.microsoft.design/">Fluent 2</a>, and <a href="https://docs.velopack.io/">Velopack</a>.</li>
+        </ul>
+        <p>PodWin is an original implementation, inspired in part by <a href="https://github.com/seiggy/wslc-desktop">Zack Way's WSLc Desktop Manager</a>, Docker Desktop, and Podman Desktop. It does not copy their application code, branding, or assets.</p>
+      </section>
+      <a class="back-link" href="../">&#8592; Back to PodWin</a>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><a class="footer-wordmark" href="../">Pod<span>Win</span></a><p>An independent Windows app. Not affiliated with or endorsed by Microsoft.</p><nav aria-label="Footer navigation"><a href="./">Docs</a><a href="#privacy">Privacy</a><a href="https://github.com/swigerb/podwin.app">Site source</a></nav></div></footer>
+</body>
+</html>
