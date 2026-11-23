@@ -107,9 +107,12 @@ test("the preview discloses sample data and private-source/release limitations",
   assert.match(home, /not a screenshot or a live runtime connection/);
   assert.match(home, /No public installer yet/);
   assert.match(home, /repository is currently private/);
-  assert.match(docs, /no source-code license has been selected/i);
+  for (const page of [home, docs]) {
+    assert.match(page, /Apache License 2\.0/);
+    assert.doesNotMatch(page, /license has not been selected|no source-code license has been selected|WSLc 3\.0\.3 or later/i);
+  }
   assert.match(docs, /Compose file parsing, validation, planning, and execution/);
-  assert.match(docs, /No public installer, automatic update feed, or Microsoft Store listing/);
+  assert.match(docs, /No public installer or Microsoft Store listing/);
 });
 
 test("Pages deploys only the static directory after an explicit enablement gate", async () => {
