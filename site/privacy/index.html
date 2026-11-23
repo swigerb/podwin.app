@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="../assets/theme.js"></script>
+  <title>Privacy policy | PodWin</title>
+  <meta name="description" content="The PodWin privacy policy: local storage, diagnostics, network connections, and user controls.">
+  <meta name="theme-color" content="#101c30">
+  <link rel="canonical" href="https://podwin.app/privacy/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PodWin">
+  <meta property="og:title" content="Privacy policy | PodWin">
+  <meta property="og:description" content="Learn what PodWin accesses locally, stores, connects to, and lets you control.">
+  <meta property="og:url" content="https://podwin.app/privacy/">
+  <meta property="og:image" content="https://podwin.app/assets/podwin-banner.png">
+  <meta property="og:image:alt" content="The blue and teal PodWin capsule logo and wordmark.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../assets/favicon.ico" sizes="any">
+  <link rel="icon" href="../assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../assets/site.css">
+  <script src="../assets/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../" aria-label="PodWin home">
+        <img class="brand-dark" src="../assets/podwin-horizontal-dark.png" alt="PodWin" width="1600" height="480">
+        <img class="brand-light" src="../assets/podwin-horizontal-light.png" alt="PodWin" width="1600" height="480">
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="../#preview">The preview</a>
+        <a href="../docs/">Docs</a>
+        <a href="../#roadmap">Roadmap</a>
+        <a href="./" aria-current="page">Privacy</a>
+        <a class="nav-github" href="https://github.com/swigerb/PodWin" title="Application repository; access is currently restricted">GitHub <span aria-hidden="true">&#8599;</span></a>
+      </nav>
+      <button class="theme-toggle" type="button" aria-label="Switch to light theme" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+      </button>
+    </div>
+  </header>
+  <main class="container docs-layout" id="main">
+    <nav class="docs-sidebar" aria-label="Privacy policy sections">
+      <p class="eyebrow">PODWIN / PRIVACY</p>
+      <a href="#publisher">Who publishes PodWin</a>
+      <a href="#local-access">What PodWin accesses</a>
+      <a href="#local-storage">What PodWin stores</a>
+      <a href="#network">Network connections</a>
+      <a href="#controls">Your controls</a>
+      <a href="#children">Children</a>
+      <a href="#changes">Policy changes</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="docs-content">
+      <p class="eyebrow">PODWIN / PRIVACY</p>
+      <h1>Privacy policy</h1>
+      <p class="docs-lead">Last updated: November 23, 2026</p>
+
+      <section id="publisher">
+        <h2>Who publishes PodWin</h2>
+        <p>PodWin is published by MightyB. This policy describes the PodWin desktop app and this website.</p>
+      </section>
+
+      <section id="local-access">
+        <h2>What PodWin accesses locally</h2>
+        <p>PodWin reads local runtime versions and session, container, and image metadata. It also reads requested output so it can display it in the app. Names, paths, and output can identify people or contain sensitive information.</p>
+        <p>PodWin does not include usage analytics, advertising, behavioral tracking, or remote crash reporting.</p>
+        <p>PodWin keeps local, redacted, size-bounded diagnostics. Diagnostic files contain fixed operation and failure events and numeric HRESULTs. They do not contain credentials, environment values, inspect payloads, command input or output, or container logs. Diagnostic files remain on your device and are never uploaded. You can share them only if you choose to do so.</p>
+      </section>
+
+      <section id="local-storage">
+        <h2>What PodWin stores and where</h2>
+        <p>PodWin saves settings such as appearance, window position and size, and sandbox preferences. It does not save container output or log snapshots automatically.</p>
+        <p>The Direct build stores settings at <code>%LOCALAPPDATA%\PodWin.Settings.Direct\settings.json</code>. Its redacted diagnostics are at <code>%LOCALAPPDATA%\PodWin\logs</code>. Direct-owned sessions use <code>%LOCALAPPDATA%\PodWin.Sessions.Direct</code>.</p>
+        <p>The Store build stores settings in the package <code>LocalFolder</code> and diagnostics in that folder's <code>logs</code> subdirectory. The Store build doesn't create PodWin-owned sessions. Windows may remove package local data when the Store app is reset or uninstalled.</p>
+        <p>The optional Store Start at sign-in choice is stored by Windows as a startup-task state. PodWin keeps no copy of that choice. The Direct build can add a per-user Windows startup entry only after your explicit confirmation in Settings. PodWin reads its startup state and removes only the Direct entry during uninstall.</p>
+      </section>
+
+      <section id="network">
+        <h2>Network connections</h2>
+        <p>The Direct build checks for stable releases against GitHub Releases only when you request it. It does not poll in the background or apply updates automatically. A download requires your confirmation, and GitHub can receive request metadata such as your source IP address.</p>
+        <p>When you consent to an image pull in the Direct build, the registry you choose receives the image request and associated network information, including authentication information if you supply it. GitHub Releases and registries have their own privacy practices. The Store build uses Store-managed updates and excludes the Direct update code and Velopack.</p>
+        <p>Agent sandboxes (Direct build): creating a sandbox pulls the requested public image from its registry after consent, and sandbox containers run with networking disabled. If you enable MCP for a launch, PodWin listens only on a local named pipe secured to your Windows account, and the separately published sidecar connects to it. Neither opens a network listener.</p>
+        <p>When you choose to open a published container port, PodWin asks Windows to open the link in your default browser. PodWin does not itself request the link.</p>
+        <p>WSL and container workloads can make their own network requests. PodWin's local-first design does not control or prevent those requests.</p>
+        <p>Microsoft's own privacy statement covers WSL, Windows, and the Microsoft Store: <a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a>.</p>
+      </section>
+
+      <section id="controls">
+        <h2>Your controls</h2>
+        <p>You choose what PodWin displays and what information you copy or share. A log snapshot leaves PodWin only when you choose Copy or Save. Copy puts the snapshot on the Windows clipboard. Save writes it to a file that you choose in the Windows save dialog.</p>
+        <p>You can change appearance and startup preferences in Settings. You can remove Direct settings and logs manually while PodWin is closed. Store app-data retention across upgrades, reset, and uninstall depends on the installed package and Windows.</p>
+        <p>If you email support at support@podwin.app, the information you choose to send leaves your device. Registries and container workloads can have their own privacy policies.</p>
+      </section>
+
+      <section id="children">
+        <h2>Children</h2>
+        <p>PodWin is not directed to children. A parent or guardian who allows a child to use the app should review local container data and anything copied or sent to another service.</p>
+      </section>
+
+      <section id="changes">
+        <h2>Changes to this policy</h2>
+        <p>When PodWin changes how it handles data, MightyB may update this policy. The Last updated date at the top shows the latest revision.</p>
+      </section>
+
+      <section id="contact">
+        <h2>Contact</h2>
+        <p>Questions or privacy requests: support@podwin.app.</p>
+      </section>
+
+      <a class="back-link" href="../">&#8592; Back to PodWin</a>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="footer-wordmark" href="../">Pod<span>Win</span></a>
+      <p>An independent Windows app. Not affiliated with or endorsed by Microsoft.</p>
+      <nav aria-label="Footer navigation">
+        <a href="../docs/">Docs</a>
+        <a href="./" aria-current="page">Privacy</a>
+        <a href="https://github.com/swigerb/podwin.app">Site source</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

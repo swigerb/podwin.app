@@ -97,7 +97,7 @@ test("manifest icons and sitemap use the intended domain and real assets", async
   for (const icon of manifest.icons) assert.ok((await stat(path.join(root, icon.src))).isFile());
   const sitemap = await readFile(path.join(root, "sitemap.xml"), "utf8");
   const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.deepEqual(locations.sort(), [`${origin}/`, `${origin}/docs/`]);
+  assert.deepEqual(locations.sort(), [`${origin}/`, `${origin}/docs/`, `${origin}/privacy/`]);
   assert.match(await readFile(path.join(root, "robots.txt"), "utf8"), /Sitemap: https:\/\/podwin\.app\/sitemap\.xml/);
 });
 
@@ -110,6 +110,29 @@ test("the preview discloses sample data and private-source/release limitations",
   assert.match(docs, /no source-code license has been selected/i);
   assert.match(docs, /Compose file parsing, validation, planning, and execution/);
   assert.match(docs, /No public installer, automatic update feed, or Microsoft Store listing/);
+});
+
+test("the privacy policy page covers the distribution facts and is linked locally", async () => {
+  const privacy = await readFile(path.join(root, "privacy", "index.html"), "utf8");
+  const home = await readFile(path.join(root, "index.html"), "utf8");
+  const docs = await readFile(path.join(root, "docs", "index.html"), "utf8");
+  assert.match(privacy, /Last updated: November 23, 2026/);
+  assert.match(privacy, /PodWin is published by MightyB/);
+  assert.match(privacy, /support@podwin\.app/);
+  assert.match(privacy, /usage analytics, advertising, behavioral tracking, or remote crash reporting/);
+  assert.match(privacy, /Direct-only|Direct build/);
+  assert.match(privacy, /Store-managed updates/);
+  assert.match(privacy, /Start at sign-in/);
+  assert.match(privacy, /Microsoft Privacy Statement/);
+  assert.match(privacy, /The Store build doesn&apos;t create PodWin-owned sessions|The Store build doesn't create PodWin-owned sessions/);
+  assert.doesNotMatch(privacy, /Store-owned session data uses/);
+  assert.match(privacy, /Agent sandboxes \(Direct build\)/);
+  assert.match(privacy, /sandbox containers run with networking disabled/);
+  assert.match(privacy, /local named pipe secured to your Windows account/);
+  assert.match(privacy, /separately published sidecar/);
+  assert.match(privacy, /Neither opens a network listener/);
+  assert.match(home, /href="privacy\/">Privacy/);
+  assert.match(docs, /href="\.\.\/privacy\/">Privacy/);
 });
 
 test("Pages deploys only the static directory after an explicit enablement gate", async () => {
