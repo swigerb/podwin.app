@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "leaseKey": "session-podwin-web-2-preview-copy-20261123",
+  "sessionId": "podwin-web-2-preview-copy-20261123",
+  "repository": "swigerb/podwin.app",
+  "issueNumber": null,
+  "dispatchSource": "local-cli",
+  "route": "aca-job",
+  "executionMode": "aca-job",
+  "state": "claimed",
+  "attempts": 1,
+  "startedAt": "2026-11-23T18:55:24.092Z",
+  "lastHeartbeatAt": "2026-11-23T18:55:24.092Z",
+  "updatedAt": "2026-11-23T18:55:24.092Z",
+  "terminalReason": null,
+  "executionRef": null
+}
