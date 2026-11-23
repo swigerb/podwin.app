@@ -7,6 +7,7 @@ import { runInNewContext } from "node:vm";
 
 const root = fileURLToPath(new URL("../../site/", import.meta.url));
 const origin = "https://podwin.app";
+const contactLinks = ["support", "info", "security", "privacy"].map((name) => `mailto:${name}@podwin.app`);
 const listFiles = async (directory) => {
   const files = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -69,6 +70,10 @@ for (const page of pages) {
   test(`${name}: every local link, asset, and fragment resolves`, async () => {
     for (const match of page.source.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
       const target = new URL(match[1], page.url);
+      if (target.protocol === "mailto:") {
+        assert.ok(match[0].startsWith("href=") && contactLinks.includes(match[1]), `Unexpected email link: ${match[0]}`);
+        continue;
+      }
       if (target.origin !== origin) {
         assert.equal(target.protocol, "https:", `Unexpected external URL: ${target.href}`);
         continue;
@@ -146,6 +151,17 @@ test("Pages deploys only the static directory after an explicit enablement gate"
   assert.match(workflow, /path: site\b/);
   assert.match(workflow, /needs: validate/);
   assert.doesNotMatch(workflow, /enablement:\s*true|secrets\./);
+});
+
+test("visitors can find and use all four project contacts without JavaScript", async () => {
+  const home = await readFile(path.join(root, "index.html"), "utf8");
+  const docs = await readFile(path.join(root, "docs", "index.html"), "utf8");
+  assert.match(home, /href="docs\/#contact">Contact PodWin<\/a>/);
+  const section = docs.match(/<section id="contact">([\s\S]*?)<\/section>/)?.[1];
+  assert.ok(section, "Missing contact section");
+  for (const href of contactLinks) {
+    assert.ok(section.includes(`<a href="${href}">${href.slice("mailto:".length)}</a>`), href);
+  }
 });
 
 test("theme bootstrap honors valid overrides and otherwise follows the system", async () => {
