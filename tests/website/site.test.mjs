@@ -106,18 +106,27 @@ test("manifest icons and sitemap use the intended domain and real assets", async
   assert.match(await readFile(path.join(root, "robots.txt"), "utf8"), /Sitemap: https:\/\/podwin\.app\/sitemap\.xml/);
 });
 
-test("the preview discloses sample data and private-source/release limitations", async () => {
+test("the 1.0 page discloses availability and private-source/release facts", async () => {
   const home = await readFile(path.join(root, "index.html"), "utf8");
   const docs = await readFile(path.join(root, "docs", "index.html"), "utf8");
   assert.match(home, /not a screenshot or a live runtime connection/);
-  assert.match(home, /No public installer yet/);
+  assert.match(home, /Available from the Microsoft Store/);
+  assert.match(home, /9P48Q1CXZ8KH/);
   assert.match(home, /repository is currently private/);
   for (const page of [home, docs]) {
     assert.match(page, /Apache License 2\.0/);
-    assert.doesNotMatch(page, /license has not been selected|no source-code license has been selected|WSLc 3\.0\.3 or later/i);
+    assert.doesNotMatch(page, /license has not been selected|no source-code license has been selected|WSLc 3\.0\.3 or later|Foundation preview|No public installer|No public Store listing/i);
   }
-  assert.match(docs, /Compose file parsing, validation, planning, and execution/);
-  assert.match(docs, /No public installer or Microsoft Store listing/);
+  assert.match(docs, /does not load or run Compose files/);
+  assert.match(docs, /Microsoft Store/);
+  assert.match(docs, /9P48Q1CXZ8KH/);
+  assert.match(docs, /Windows 11 build 26300 or later/);
+  assert.match(docs, /Native x64 and Arm64 Store packages/);
+  assert.match(docs, /every WSLc operation is unavailable/);
+  assert.match(docs, /3\.0\.5/);
+  assert.match(docs, /Microsoft WSL 2\.9\.3 or later/);
+  assert.match(docs, /Direct \(Velopack\) channel is not released for PodWin 1\.0/);
+  assert.doesNotMatch(docs, /Native ARM64 support is still planned/);
 });
 
 test("the privacy policy page covers the distribution facts and is linked locally", async () => {

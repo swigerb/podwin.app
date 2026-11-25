@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="../assets/theme.js"></script>
   <title>Documentation | PodWin</title>
-  <meta name="description" content="PodWin foundation preview documentation: Windows and WSLc requirements, development setup, session safety, supported workflows, and limitations.">
+  <meta name="description" content="PodWin 1.0 documentation: Microsoft Store availability, Windows and WSLc requirements, session safety, supported workflows, and limitations.">
   <meta name="theme-color" content="#101c30">
   <link rel="canonical" href="https://podwin.app/docs/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="PodWin">
   <meta property="og:title" content="Documentation | PodWin">
-  <meta property="og:description" content="Get to know the PodWin foundation preview. Requirements, development setup, supported workflows, and honest boundaries.">
+  <meta property="og:description" content="Get to know PodWin 1.0. Requirements, Store installation, supported workflows, and honest boundaries.">
   <meta property="og:url" content="https://podwin.app/docs/">
   <meta property="og:image" content="https://podwin.app/assets/podwin-banner.png">
   <meta property="og:image:alt" content="The blue and teal PodWin capsule logo and wordmark.">
@@ -33,35 +33,34 @@
   </header>
   <main class="container docs-layout" id="main">
     <nav class="docs-sidebar" aria-label="Documentation sections">
-      <p class="eyebrow">FOUNDATION DOCS</p>
+      <p class="eyebrow">PODWIN 1.0 DOCS</p>
       <a href="#overview">Overview</a><a href="#requirements">Requirements</a><a href="#development">Build from source</a><a href="#first-connection">First connection</a><a href="#boundaries">Scope and limitations</a><a href="#troubleshooting">Troubleshooting</a><a href="#remove-retained-data">Remove retained PodWin data</a><a href="#privacy">Privacy</a><a href="#distribution">Distribution and licensing</a><a href="#resources">Project and resources</a>
       <a href="#contact">Contact</a>
     </nav>
     <div class="docs-content">
       <p class="eyebrow">PODWIN / DOCUMENTATION</p>
       <h1>A good place to begin.</h1>
-      <p class="docs-lead">Understand the foundation before you connect. PodWin is a native Windows 11 app for WSLc container management, currently in early development.</p>
-      <div class="callout"><p><strong>Foundation preview, not a production release.</strong> No public installer or Microsoft Store listing is available. The repository is currently private; building from source requires repository access.</p></div>
+      <p class="docs-lead">PodWin 1.0 is a native Windows 11 app for discovering and managing WSLc containers, with opt-in local Agent Sandboxes for coding tools.</p>
+      <div class="callout"><p><strong>Available from the Microsoft Store.</strong> PodWin 1.0 uses a Store bundle with native x64 and Arm64 packages and requires Windows 11 build 26300 or later.</p></div>
 
       <section id="overview">
-        <h2>What the preview does</h2>
+        <h2>What PodWin 1.0 does</h2>
         <p>Discover a WSLc session, confirm the connection, and browse its containers and images. In a session PodWin owns, you can also pull an image, check whether the session is running, or terminate it. PodWin asks before it acts.</p>
         <p>Use the command palette (<kbd>Ctrl+K</kbd>) to get around, or open the user guide from Settings &gt; About PodWin. Settings also lets you choose light, dark, or system appearance.</p>
       </section>
       <section id="requirements">
         <h2>Requirements</h2>
         <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th scope="col">Component</th><th scope="col">Current baseline</th></tr></thead><tbody>
-          <tr><td>Operating system</td><td>Windows 11 22H2 or later.</td></tr>
-          <tr><td>Container runtime</td><td>WSLc 3.0.3 or 3.0.4, installed separately. WSLc 3.0.5 has <a href="#runtime-limits">limited support</a>; don't assume newer clients enable the same features.</td></tr>
-          <tr><td>Development SDK</td><td>Use the .NET SDK pinned in <code>global.json</code> in your checkout of the app repository.</td></tr>
-          <tr><td>Architecture</td><td>x64. Native ARM64 support is still planned.</td></tr>
+          <tr><td>Operating system</td><td>Windows 11 build 26300 or later.</td></tr>
+          <tr><td>Architecture</td><td>Native x64 and Arm64 Store packages. On Arm64 PCs, PodWin runs natively, but every WSLc operation is unavailable in this version.</td></tr>
+          <tr><td>Container runtime</td><td>Microsoft WSL 2.9.3 or later and WSLc client and runtime 3.0.3, 3.0.4, or 3.0.5, installed separately. PodWin never installs or changes WSL.</td></tr>
         </tbody></table></div>
-        <p id="runtime-limits"><strong>On WSLc 3.0.5:</strong> A qualified x64 host running the Direct build supports session discovery, container and image lists, the PodWin-owned session lifecycle, and image pulls. Container and image details, logs, network lists, and agent sandboxes are unavailable. On other unrecognized versions, PodWin reports the mismatch rather than creating its session or pulling images.</p>
+        <p id="runtime-limits"><strong>Runtime build qualifiers:</strong> On x64 PCs running a build later than 26300, WSLc 3.0.3 and 3.0.4 support reviewed read-only discovery, inventory, details, and logs without an owned session. WSLc 3.0.5 reads and PodWin-owned sessions require a qualified x64 host running Windows build 26300 exactly. That exact-build route also supports image pulls, network reads, volume inventory and details, and Agent Sandboxes. PodWin reports other version mismatches and does not create the owned session or pull images. These WSLc features remain unavailable on Arm64 PCs.</p>
         <p class="section-note">A detected CLI does not prove that the WSL components or an existing session are healthy. PodWin can still be used for dependency diagnosis without a session.</p>
       </section>
       <section id="development">
         <h2>Build from source</h2>
-        <p>With access to the project repository, clone it and run these commands in a Windows PowerShell terminal. The app is self-contained when published; the SDK requirement here is for development.</p>
+        <p>Building from source is for contributors with access to the project repository. Store users should install PodWin from the <a href="https://apps.microsoft.com/detail/9P48Q1CXZ8KH">Microsoft Store</a>. Run these commands in a Windows PowerShell terminal.</p>
         <div class="code-block">
           <div class="code-heading"><span>POWERSHELL / DEVELOPMENT</span><button class="copy-button" type="button" data-copy="build-commands" hidden>Copy commands</button></div>
           <pre><code id="build-commands">git clone https://github.com/swigerb/PodWin.git
@@ -86,12 +85,11 @@ dotnet build src\PodWin.App\PodWin.App.csproj
       <section id="boundaries">
         <h2>Scope and limitations</h2>
         <p>PodWin connects to WSLc, not the Docker Engine socket. Existing Docker Desktop containers will not appear in PodWin.</p>
-        <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th scope="col">Available in the foundation</th><th scope="col">Not implemented yet</th></tr></thead><tbody>
-          <tr><td>Discover existing sessions; create, reconnect to, check, or terminate the session PodWin owns</td><td>Start, stop, restart, or remove individual containers from inventory</td></tr>
-          <tr><td>Browse images and pull an image into the PodWin-owned session</td><td>Private registry credentials</td></tr>
-          <tr><td>Filter containers and follow logs on supported clients</td><td>Interactive terminal access and live resource statistics</td></tr>
-          <tr><td>Read networks for a confirmed running PodWin-owned session on supported clients</td><td>Volume and network management</td></tr>
-          <tr><td>Opt in to local agent sandboxes; the MCP listener is off by default and requests require confirmation</td><td>Compose file parsing, validation, planning, and execution</td></tr>
+        <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th scope="col">Available in PodWin 1.0</th><th scope="col">Future roadmap</th></tr></thead><tbody>
+          <tr><td>Discover existing sessions; create, reconnect to, check, or terminate the session PodWin owns</td><td>Signed Direct releases</td></tr>
+          <tr><td>Browse containers and images, follow logs, and pull supported images</td><td>Arm64 runtime support for WSLc features</td></tr>
+          <tr><td>Read networks and redacted volume inventory for a qualified running owned session</td><td>Network allowlisting beyond deny-all and owned VHDX reclamation</td></tr>
+          <tr><td>Opt in to local Agent Sandboxes; the MCP listener is off by default and requests require confirmation</td><td>Completed accessibility qualification</td></tr>
         </tbody></table></div>
         <p class="section-note">The Compose page describes a future contract; it does not load or run Compose files. Kubernetes, Docker API compatibility, and full Docker Compose parity are not promised.</p>
       </section>
@@ -158,8 +156,8 @@ dotnet build src\PodWin.App\PodWin.App.csproj
       <section id="distribution">
         <h2>Distribution and licensing</h2>
         <p>PodWin is free to use. The app is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>; its source repository remains private. Third-party components keep their own licenses.</p>
-        <p>The Direct preview is a self-contained x64 folder shared by the owner. Folder builds cannot update themselves. The installed Direct build checks for updates on request and asks before downloading or restarting to apply one.</p>
-        <p>The separate Microsoft Store build uses MSIX and Store-managed updates, not Velopack. There is no public Store listing.</p>
+        <p>PodWin 1.0 is available from the <a href="https://apps.microsoft.com/detail/9P48Q1CXZ8KH">Microsoft Store</a> (Store ID 9P48Q1CXZ8KH). The Store bundle uses MSIX and contains native x64 and Arm64 packages. Microsoft Store manages updates.</p>
+        <p>The Direct (Velopack) channel is not released for PodWin 1.0. This release is distributed through the Microsoft Store.</p>
       </section>
       <section id="resources">
         <h2>Project and resources</h2>

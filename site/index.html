@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="assets/theme.js"></script>
   <title>PodWin | WSLc containers. Native Windows.</title>
-  <meta name="description" content="Meet PodWin, a native Windows 11 app for WSLc container management. Explore the foundation preview, read the docs, and see what's next.">
+  <meta name="description" content="PodWin 1.0 is a native Windows 11 app for WSLc container management. Get it from the Microsoft Store and read the docs.">
   <meta name="theme-color" content="#101c30">
   <link rel="canonical" href="https://podwin.app/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="PodWin">
   <meta property="og:title" content="PodWin | WSLc containers. Native Windows.">
-  <meta property="og:description" content="A Windows-native home for your WSLc containers. Explore the foundation preview.">
+  <meta property="og:description" content="PodWin 1.0 is available from the Microsoft Store for Windows 11. Explore WSLc containers and opt-in Agent Sandboxes.">
   <meta property="og:url" content="https://podwin.app/">
   <meta property="og:image" content="https://podwin.app/assets/podwin-banner.png">
   <meta property="og:image:alt" content="The blue and teal PodWin capsule logo and wordmark.">
@@ -32,7 +32,7 @@
         <img class="brand-light" src="assets/podwin-horizontal-light.png" alt="PodWin" width="1600" height="480">
       </a>
       <nav aria-label="Main navigation">
-        <a href="#preview">The preview</a>
+        <a href="#preview">The app</a>
         <a href="docs/">Docs</a>
         <a href="#roadmap">Roadmap</a>
         <a href="privacy/">Privacy</a>
@@ -48,12 +48,12 @@
       <div class="hero-copy">
         <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> BUILT FOR WINDOWS. POWERED BY WSLc.</p>
         <h1 id="hero-title">Your containers.<br>Right at home<br><span class="gradient-text">on Windows.</span></h1>
-        <p class="hero-description">Meet PodWin. A native Windows 11 home for WSLc container management, built with WinUI 3 and Fluent design.</p>
+        <p class="hero-description">Meet PodWin 1.0. A native Windows 11 app for WSLc container management, available from the Microsoft Store.</p>
         <div class="button-row">
-          <a class="button button-primary" href="docs/">Explore the preview <span aria-hidden="true">&#8594;</span></a>
-          <a class="button button-secondary" href="#roadmap">See what's next</a>
+          <a class="button button-primary" href="https://apps.microsoft.com/detail/9P48Q1CXZ8KH">Get PodWin from Microsoft Store <span aria-hidden="true">&#8594;</span></a>
+          <a class="button button-secondary" href="docs/">Read the docs</a>
         </div>
-        <p class="hero-note"><span class="small-tag">FOUNDATION PREVIEW</span> In development. No public installer yet.</p>
+        <p class="hero-note"><span class="small-tag">PODWIN 1.0</span> Available from the Microsoft Store for Windows 11.</p>
       </div>
       <div class="hero-art">
         <div class="orbit orbit-one" aria-hidden="true"></div>
@@ -79,7 +79,7 @@
         <p>A focused native shell for understanding your environment. Start with discovery, connect on your terms, and see what's actually there.</p>
       </div>
       <div class="preview-frame">
-        <div class="preview-titlebar"><img src="assets/favicon-32.png" alt="" width="24" height="24"><span>PodWin</span><span class="preview-badge">FOUNDATION PREVIEW</span><span class="window-chrome" aria-hidden="true">&#8212; &nbsp; &#9633; &nbsp; &#215;</span></div>
+        <div class="preview-titlebar"><img src="assets/favicon-32.png" alt="" width="24" height="24"><span>PodWin</span><span class="preview-badge">PODWIN 1.0</span><span class="window-chrome" aria-hidden="true">&#8212; &nbsp; &#9633; &nbsp; &#215;</span></div>
         <div class="preview-body">
           <div class="preview-sidebar">
             <span class="sidebar-label">YOUR ENVIRONMENT</span>
@@ -133,19 +133,19 @@
       </div>
       <div class="roadmap-grid">
         <article class="roadmap-card roadmap-current">
-          <span class="stage-label"><span class="status-dot" aria-hidden="true"></span> CURRENT FOUNDATION</span>
+          <span class="stage-label"><span class="status-dot" aria-hidden="true"></span> PODWIN 1.0 / AVAILABLE</span>
           <h3>Look around.</h3>
-          <ul><li>Discover and connect to WSLc sessions</li><li>Browse containers, images, and logs</li><li>Manage the PodWin-owned session</li><li>Pull images into that session</li><li>Opt in to local agent sandboxes</li></ul>
+          <ul><li>Discover and connect to WSLc sessions</li><li>Browse containers, images, networks, and volumes</li><li>Manage the PodWin-owned session</li><li>Pull images into that session</li><li>Opt in to local Agent Sandboxes</li></ul>
         </article>
         <article class="roadmap-card">
-          <span class="stage-label">PLANNED / WORKFLOWS</span>
-          <h3>Take control.</h3>
-          <ul><li>Start, stop, and restart containers</li><li>Interactive terminal access</li><li>Live resource statistics</li><li>Volume and network management</li><li>Private registry credentials</li></ul>
+          <span class="stage-label">PLANNED / SECURITY</span>
+          <h3>Extend the boundaries.</h3>
+          <ul><li>Network allowlisting beyond deny-all</li><li>Owned Agent Sandbox VHDX reclamation</li><li>Broader runtime and build support</li></ul>
         </article>
         <article class="roadmap-card">
           <span class="stage-label">PLANNED / RELEASE READINESS</span>
           <h3>Ship thoughtfully.</h3>
-          <ul><li>Compose planning and compatibility checks</li><li>Signed Velopack releases and updates</li><li>Separate Microsoft Store MSIX channel</li><li>ARM64 and clean-machine qualification</li><li>Accessibility and installation acceptance</li></ul>
+          <ul><li>Signed Direct releases</li><li>Arm64 runtime support for WSLc features</li><li>Completed accessibility qualification</li></ul>
         </article>
       </div>
       <p class="section-note">Available features depend on your WSLc version. Kubernetes, Docker API compatibility, and full Docker Compose parity are not promised. <a href="docs/#boundaries">Read the scope and limitations <span aria-hidden="true">&#8594;</span></a></p>
@@ -154,9 +154,9 @@
     <section class="section container faq-section" aria-labelledby="faq-title">
       <div><p class="eyebrow">A FEW THINGS WORTH KNOWING</p><h2 id="faq-title">Before you dive in.</h2></div>
       <div class="faq-list">
-        <details><summary>Can I download PodWin today?</summary><p>Not yet. PodWin is a foundation preview with no public installer or Microsoft Store listing. Signing and clean-machine validation still come before a public release. The docs describe the current development workflow.</p></details>
+        <details><summary>Can I get PodWin today?</summary><p>Yes. PodWin 1.0 is available from the <a href="https://apps.microsoft.com/detail/9P48Q1CXZ8KH">Microsoft Store</a> for Windows 11.</p></details>
         <details><summary>Is this a replacement for Docker Desktop?</summary><p>Not today. PodWin manages WSLc containers. It does not connect to Docker Engine, and Docker Desktop containers will not appear here.</p></details>
-        <details><summary>What do I need to run it?</summary><p>Windows 11 22H2 or later on x64, with WSLc installed separately. The preview supports WSLc 3.0.3 and 3.0.4, with a smaller feature set on qualified Direct x64 hosts running 3.0.5. See the <a href="docs/#requirements">requirements</a>.</p></details>
+        <details><summary>What do I need to run it?</summary><p>You need Windows 11 build 26300 or later. The Store bundle contains native x64 and Arm64 packages. On Arm64 PCs, PodWin runs natively, but WSLc container features are unavailable in this version. WSLc 3.0.3 and 3.0.4 are supported on qualified x64 hosts; WSLc 3.0.5 and the PodWin-owned-session workflows require Windows build 26300 exactly. PodWin never installs or changes WSL. See the <a href="docs/#requirements">requirements</a>.</p></details>
         <details><summary>Is PodWin free and open source?</summary><p>PodWin is free to use and the app is licensed under Apache License 2.0. The project repository is currently private, so public source downloads are not available.</p></details>
       </div>
     </section>
