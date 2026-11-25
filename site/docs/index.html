@@ -34,7 +34,7 @@
   <main class="container docs-layout" id="main">
     <nav class="docs-sidebar" aria-label="Documentation sections">
       <p class="eyebrow">FOUNDATION DOCS</p>
-      <a href="#overview">Overview</a><a href="#requirements">Requirements</a><a href="#development">Build from source</a><a href="#first-connection">First connection</a><a href="#boundaries">Scope and limitations</a><a href="#troubleshooting">Troubleshooting</a><a href="#privacy">Privacy</a><a href="#distribution">Distribution and licensing</a><a href="#resources">Project and resources</a>
+      <a href="#overview">Overview</a><a href="#requirements">Requirements</a><a href="#development">Build from source</a><a href="#first-connection">First connection</a><a href="#boundaries">Scope and limitations</a><a href="#troubleshooting">Troubleshooting</a><a href="#remove-retained-data">Remove retained PodWin data</a><a href="#privacy">Privacy</a><a href="#distribution">Distribution and licensing</a><a href="#resources">Project and resources</a>
       <a href="#contact">Contact</a>
     </nav>
     <div class="docs-content">
@@ -104,10 +104,55 @@ dotnet build src\PodWin.App\PodWin.App.csproj
         <h3>A read is canceled, times out, or reaches its output limit</h3>
         <p>The process boundary deliberately caps execution time and output. Read the surfaced error and retry only when appropriate. Do not interpret a canceled or truncated operation as a complete inventory.</p>
       </section>
+      <section id="remove-retained-data">
+        <h2>Remove retained PodWin data</h2>
+        <p>PodWin retains owned-session disks and ownership records outside the app. Agent Sandbox disks and ownership records are also retained. Removing this data manually requires care: close or uninstall PodWin, then verify the exact WSLc registration is absent before deleting any files.</p>
+
+        <h3>Direct owned sessions</h3>
+        <ol>
+          <li>Close or uninstall PodWin.</li>
+          <li>Use a read-only WSLc session list to confirm that <code>PodWin</code> is not registered. If it is still registered, do not remove any files; use the supported WSLc process to remove only that registration, then repeat the read-only list.</li>
+          <li>After <code>PodWin</code> is absent, remove only the <code>%LOCALAPPDATA%\PodWin.Sessions.Direct</code> folder.</li>
+        </ol>
+
+        <h3>Store owned sessions</h3>
+        <ol>
+          <li>Close or uninstall PodWin.</li>
+          <li>Use a read-only WSLc session list to confirm that <code>PodWinStore</code> is not registered. If it is still registered, do not remove any files; use the supported WSLc process to remove only that registration, then repeat the read-only list.</li>
+          <li>After <code>PodWinStore</code> is absent, remove only the <code>%USERPROFILE%\.podwin\PodWin.Sessions.Store</code> folder.</li>
+        </ol>
+
+        <h3>Direct Agent Sandboxes</h3>
+        <ol>
+          <li>Close or uninstall PodWin.</li>
+          <li>Use a read-only WSLc session list to confirm that the sandbox's exact <code>&lt;32-hex ID&gt;</code> registration is not present. If it is still registered, do not remove any files; use the supported WSLc process to remove only that exact registration, then repeat the read-only list.</li>
+          <li>After that exact registration is absent, remove only the exact <code>&lt;32-hex ID&gt;</code> folder at <code>%LOCALAPPDATA%\PodWin.Sandboxes.Direct\&lt;32-hex ID&gt;</code>. Never remove the whole <code>.podwin</code> directory or another session's directory.</li>
+        </ol>
+
+        <h3>Store Agent Sandboxes</h3>
+        <ol>
+          <li>Close or uninstall PodWin.</li>
+          <li>Use a read-only WSLc session list to confirm that the sandbox's exact <code>&lt;32-hex ID&gt;</code> registration is not present. If it is still registered, do not remove any files; use the supported WSLc process to remove only that exact registration, then repeat the read-only list.</li>
+          <li>After that exact registration is absent, remove only the exact <code>&lt;32-hex ID&gt;</code> folder at <code>%USERPROFILE%\.podwin\PodWin.Sandboxes.Store\&lt;32-hex ID&gt;</code>. Never remove the whole <code>.podwin</code> directory or another session's directory.</li>
+        </ol>
+        <p class="section-note">Never remove the <code>.podwin</code> root, a PodWin owned-session root, or an unrelated sandbox folder as a settings reset or troubleshooting shortcut.</p>
+
+        <h3>Repair retained storage access</h3>
+        <p><strong>The retained session path named by PodWin does not have the required private access policy.</strong> PodWin refuses to open or create retained session data at that path. For Direct, the error can name <code>%LOCALAPPDATA%\PodWin.Sessions.Direct</code>, its <code>storage</code> directory, <code>storage\storage.vhdx</code>, or <code>owner-v2.json</code>. For Store, it can also name <code>%USERPROFILE%\.podwin</code>, <code>%USERPROFILE%\.podwin\PodWin.Sessions.Store</code>, its <code>storage</code> directory, <code>storage\storage.vhdx</code>, <code>owner-v2.json</code>, or a private sandbox root. Repair only the file or folder named in the error message:</p>
+        <ol>
+          <li>Close PodWin.</li>
+          <li>In File Explorer, open <strong>Properties &gt; Security &gt; Advanced</strong> for the path named in the error message. Confirm that the owner is the signed-in Windows account.</li>
+          <li>Disable inherited permissions by removing all inherited permissions. Leave <strong>Replace all child object permission entries with inheritable permission entries from this object</strong> cleared.</li>
+          <li>For a VHDX file named in the error, keep the <strong>Administrators</strong> entry only if it is an <strong>Allow</strong> entry, and remove every <strong>Deny</strong> entry. The validator rejects any Deny entry. Remove every other entry, then give the signed-in Windows account <strong>Full control</strong>. For a folder or <code>owner-v2.json</code>, remove every other access entry, including any Deny entry, and give the signed-in Windows account <strong>Full control</strong>. On a directory, retain that permission for this folder, subfolders, and files.</li>
+          <li>Apply the change and reopen PodWin. Do not add <strong>Everyone</strong>, <strong>Users</strong>, or broader access.</li>
+        </ol>
+        <p>Do not delete or replace a Direct or Store ownership record, a retained sandbox ownership record, or a VHDX as an access-repair step. If another account or process legitimately owns data at the named path, stop and have the profile administrator confirm the repair.</p>
+      </section>
       <section id="privacy">
         <h2>Privacy and your environment</h2>
         <p>PodWin sends no app telemetry and does not automatically save container log output. It keeps bounded, redacted diagnostic logs on your device; find them in Settings &gt; Privacy and diagnostics. WSLc is a separate Microsoft runtime with its own data handling.</p>
         <p>This website has no analytics, advertising, tracking cookies, third-party fonts, or embedded third-party scripts. The theme control operates in the current page and URL; it does not store a tracking identifier. GitHub Pages serves the site and may process request information under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>. Links to GitHub and other resources take you to those providers.</p>
+        <p>To remove retained owned-session or Agent Sandbox data, follow <a href="#remove-retained-data">Remove retained PodWin data</a>. The steps include the required WSLc registration checks.</p>
         <p>This describes current behavior. Read the <a href="../privacy/">public privacy policy</a> for the distribution policy and storage details.</p>
       </section>
       <section id="distribution">

@@ -51,6 +51,7 @@
       <a href="#local-storage">What PodWin stores</a>
       <a href="#network">Network connections</a>
       <a href="#controls">Your controls</a>
+      <a href="../docs/#remove-retained-data">Remove retained data</a>
       <a href="#children">Children</a>
       <a href="#changes">Policy changes</a>
       <a href="#contact">Contact</a>
@@ -58,7 +59,7 @@
     <div class="docs-content">
       <p class="eyebrow">PODWIN / PRIVACY</p>
       <h1>Privacy policy</h1>
-      <p class="docs-lead">Last updated: November 23, 2026</p>
+      <p class="docs-lead">Last updated: November 25, 2026</p>
 
       <section id="publisher">
         <h2>Who publishes PodWin</h2>
@@ -67,24 +68,37 @@
 
       <section id="local-access">
         <h2>What PodWin accesses locally</h2>
-        <p>PodWin reads local runtime versions and session, container, and image metadata. It also reads requested output so it can display it in the app. Names, paths, and output can identify people or contain sensitive information.</p>
+        <p>PodWin reads local runtime versions, WSLc session names and state, container and image metadata, supported network and volume metadata, and requested output needed to show inventory, details, logs, or sandbox status. Names, paths, image references, and output can identify people or contain sensitive information.</p>
         <p>PodWin does not include usage analytics, advertising, behavioral tracking, or remote crash reporting.</p>
-        <p>PodWin keeps local, redacted, size-bounded diagnostics. Diagnostic files contain fixed operation and failure events and numeric HRESULTs. They do not contain credentials, environment values, inspect payloads, command input or output, or container logs. Diagnostic files remain on your device and are never uploaded. You can share them only if you choose to do so.</p>
+        <p>PodWin keeps local, redacted, size-bounded diagnostics. Diagnostic files contain fixed operation and failure events and numeric HRESULTs. They do not contain credentials, environment values, inspect payloads, command input or output, or container logs. Diagnostic files remain on your device and are never uploaded.</p>
       </section>
 
       <section id="local-storage">
         <h2>What PodWin stores and where</h2>
-        <p>PodWin saves settings such as appearance, window position and size, and sandbox preferences. It does not save container output or log snapshots automatically.</p>
-        <p>The Direct build stores settings at <code>%LOCALAPPDATA%\PodWin.Settings.Direct\settings.json</code>. Its redacted diagnostics are at <code>%LOCALAPPDATA%\PodWin\logs</code>. Direct-owned sessions use <code>%LOCALAPPDATA%\PodWin.Sessions.Direct</code>.</p>
-        <p>The Store build stores settings in the package <code>LocalFolder</code> and diagnostics in that folder's <code>logs</code> subdirectory. The Store build doesn't create PodWin-owned sessions. Windows may remove package local data when the Store app is reset or uninstalled.</p>
-        <p>The optional Store Start at sign-in choice is stored by Windows as a startup-task state. PodWin keeps no copy of that choice. The Direct build can add a per-user Windows startup entry only after your explicit confirmation in Settings. PodWin reads its startup state and removes only the Direct entry during uninstall.</p>
+        <p>PodWin saves appearance and window settings and, if you choose them, Agent Sandbox defaults. It does not save container output or log snapshots automatically.</p>
+        <p>The Direct build stores settings at <code>%LOCALAPPDATA%\PodWin.Settings.Direct\settings.json</code> and redacted diagnostics at <code>%LOCALAPPDATA%\PodWin\logs</code>. Direct settings survive uninstall. Direct uninstall removes its diagnostic logs with the app installation data.</p>
+        <p>The Store build stores settings and diagnostics in the package <code>LocalFolder</code>. Windows removes that package-local data when the Store app is reset or uninstalled.</p>
+        <p>Owned-session and Agent Sandbox storage is separate from package and settings data:</p>
+        <ul>
+          <li>Direct owned sessions use <code>%LOCALAPPDATA%\PodWin.Sessions.Direct</code>.</li>
+          <li>Store owned sessions use <code>%USERPROFILE%\.podwin\PodWin.Sessions.Store</code>.</li>
+          <li>Direct Agent Sandbox data uses <code>%LOCALAPPDATA%\PodWin.Sandboxes.Direct</code>.</li>
+          <li>Store Agent Sandbox data uses <code>%USERPROFILE%\.podwin\PodWin.Sandboxes.Store</code>.</li>
+        </ul>
+        <p>These retained disks and ownership records survive the relevant session termination or app exit, and Direct uninstall. Store owned-session and sandbox data also survive uninstall and Reset. PodWin never deletes them or automatically cleans up stale Agent Sandbox directories. Destroy removes the sandbox container but not its retained disk or ownership record.</p>
+        <p>The <code>.podwin</code> directory under the classic user profile roams with classic roaming profiles unless an administrator excludes it with <code>ExcludeProfileDirs</code>.</p>
+        <p>The Direct build can add a per-user <code>PodWin</code> startup value under <code>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run</code>, but only after your confirmation in Settings. Its uninstall callback removes only that value. The optional Store <strong>Start at sign-in</strong> choice is a Windows startup task; Windows stores and manages that state. PodWin keeps no separate copy of the choice.</p>
+        <p>To remove retained session or sandbox data, follow the exact <a href="../docs/#remove-retained-data">Remove retained PodWin data</a> steps. Close PodWin, verify through a read-only WSLc session list that the exact registration is absent, and remove only the exact session or sandbox folder. Never remove the <code>.podwin</code> root or an unrelated session or sandbox folder.</p>
       </section>
 
       <section id="network">
         <h2>Network connections</h2>
         <p>The Direct build checks for stable releases against GitHub Releases only when you request it. It does not poll in the background or apply updates automatically. A download requires your confirmation, and GitHub can receive request metadata such as your source IP address.</p>
-        <p>When you consent to an image pull in the Direct build, the registry you choose receives the image request and associated network information, including authentication information if you supply it. GitHub Releases and registries have their own privacy practices. The Store build uses Store-managed updates and excludes the Direct update code and Velopack.</p>
-        <p>Agent sandboxes (Direct build): creating a sandbox pulls the requested public image from its registry after consent, and sandbox containers run with networking disabled. If you enable MCP for a launch, PodWin listens only on a local named pipe secured to your Windows account, and the separately published sidecar connects to it. Neither opens a network listener.</p>
+        <p>The Store build uses Microsoft Store-managed updates and excludes the Direct update code and Velopack. It performs no in-app update check.</p>
+        <p>When you consent to an image pull, PodWin sends the exact image reference to the chosen public registry only after consent and only when the PodWin-owned session is confirmed Running. The registry receives associated network information such as your source IP address. This release does not support private registry credentials. PodWin does not send settings or diagnostics to the registry.</p>
+        <p>Network list and inspect reads use the local WSLc runtime, are read-only, and require a channel-owned session confirmed Running. PodWin does not enable them for an external session or before that confirmation.</p>
+        <p>Agent Sandboxes are available in both the Direct and Store builds. Creating a sandbox pulls the requested public image after consent. The sandbox containers run with networking disabled and deny-all network policy; PodWin provides no destination allowlist beyond deny-all.</p>
+        <p>The MCP listener is off by default. Enable it only for the selected launch. While enabled, PodWin listens only on a local named pipe secured to the current Windows account. The Store package exposes a <code>podwin-mcp.exe</code> alias, and the Direct build uses a separate <code>PodWin.McpServer.exe</code> executable. Neither the listener nor the sidecar opens a network listener. Create, execute, and destroy requests require fresh consent in the app; a read-only sandbox list request does not require consent.</p>
         <p>When you choose to open a published container port, PodWin asks Windows to open the link in your default browser. PodWin does not itself request the link.</p>
         <p>WSL and container workloads can make their own network requests. PodWin's local-first design does not control or prevent those requests.</p>
         <p>Microsoft's own privacy statement covers WSL, Windows, and the Microsoft Store: <a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a>.</p>
@@ -93,7 +107,8 @@
       <section id="controls">
         <h2>Your controls</h2>
         <p>You choose what PodWin displays and what information you copy or share. A log snapshot leaves PodWin only when you choose Copy or Save. Copy puts the snapshot on the Windows clipboard. Save writes it to a file that you choose in the Windows save dialog.</p>
-        <p>You can change appearance and startup preferences in Settings. You can remove Direct settings and logs manually while PodWin is closed. Store app-data retention across upgrades, reset, and uninstall depends on the installed package and Windows.</p>
+        <p>You can change appearance and startup preferences in Settings. You can enable MCP only for a launch and disable it later. You can remove Direct settings and logs manually while PodWin is closed.</p>
+        <p>Store settings and logs remain in package <code>LocalFolder</code> until Windows removes them through reset or uninstall. The external owned-session and Agent Sandbox directories require manual removal after the exact WSLc registrations are absent. PodWin provides the exact steps on this website and in the app's User Guide.</p>
         <p>If you email support at support@podwin.app, the information you choose to send leaves your device. Registries and container workloads can have their own privacy policies.</p>
       </section>
 
