@@ -36,9 +36,10 @@ jobs:
     permissions:
       pages: write
       id-token: write
+      actions: read
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.rest_deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
@@ -47,4 +48,36 @@ jobs:
           path: site
       - name: Deploy
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+      # deploy-pages lists artifacts through the Actions results service, which can report none for a
+      # run whose github-pages artifact the REST API shows. Deploy that artifact by ID instead.
+      - name: Deploy the run's artifact by ID when deploy-pages cannot list it
+        id: rest_deployment
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+            let artifact;
+            for (let attempt = 0; attempt < 12 && !artifact; attempt++) {
+              const { data } = await github.rest.actions.listWorkflowRunArtifacts({ owner, repo, run_id: context.runId, name: 'github-pages' });
+              artifact = data.artifacts.find(item => item.name === 'github-pages' && !item.expired);
+              if (!artifact) await sleep(5000);
+            }
+            if (!artifact) throw new Error('The github-pages artifact for this run was not found.');
+            const oidcToken = await core.getIDToken();
+            const { data: deployment } = await github.request('POST /repos/{owner}/{repo}/pages/deployments', {
+              owner, repo, artifact_id: artifact.id, pages_build_version: context.sha, oidc_token: oidcToken
+            });
+            core.info(`Pages deployment ${deployment.id} created from artifact ${artifact.id}.`);
+            const failed = ['deployment_failed', 'deployment_lost', 'deployment_content_failed', 'deployment_perms_error', 'deployment_attempt_error', 'deployment_cancelled'];
+            for (let attempt = 0; attempt < 60; attempt++) {
+              const { data: state } = await github.request('GET /repos/{owner}/{repo}/pages/deployments/{pages_deployment_id}', { owner, repo, pages_deployment_id: deployment.id });
+              core.info(`Pages deployment status: ${state.status}`);
+              if (state.status === 'succeed') { core.setOutput('page_url', deployment.page_url); return; }
+              if (failed.includes(state.status)) throw new Error(`Pages deployment failed: ${state.status}`);
+              await sleep(5000);
+            }
+            throw new Error('Pages deployment did not finish within five minutes.');
