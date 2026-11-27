@@ -7,6 +7,9 @@ import { runInNewContext } from "node:vm";
 
 const root = fileURLToPath(new URL("../../site/", import.meta.url));
 const origin = "https://podwin.app";
+const storeUrl = "https://apps.microsoft.com/detail/9P48Q1CXZ8KH";
+const storeBadgeUrl = "https://get.microsoft.com/images/en-us%20dark.svg";
+const storeProtocolUrl = "ms-windows-store://pdp/?productid=9P48Q1CXZ8KH";
 const contactLinks = ["support", "info", "security", "privacy"].map((name) => `mailto:${name}@podwin.app`);
 const listFiles = async (directory) => {
   const files = [];
@@ -58,7 +61,9 @@ for (const page of pages) {
     for (const image of page.source.matchAll(/<img\b[^>]*>/g)) {
       assert.match(image[0], /\balt="[^"]*"/);
       assert.match(image[0], /\bwidth="\d+"/);
-      assert.match(image[0], /\bheight="\d+"/);
+      if (!image[0].includes(`src="${storeBadgeUrl}"`)) {
+        assert.match(image[0], /\bheight="\d+"/);
+      }
     }
     if (name !== "404.html") {
       assert.match(page.source, /<meta name="description" content="[^"]+"/);
@@ -72,6 +77,10 @@ for (const page of pages) {
       const target = new URL(match[1], page.url);
       if (target.protocol === "mailto:") {
         assert.ok(match[0].startsWith("href=") && contactLinks.includes(match[1]), `Unexpected email link: ${match[0]}`);
+        continue;
+      }
+      if (target.protocol === "ms-windows-store:") {
+        assert.equal(match[1], storeProtocolUrl);
         continue;
       }
       if (target.origin !== origin) {
@@ -89,7 +98,12 @@ for (const page of pages) {
   });
 
   test(`${name}: no third-party embeds, tracking, or premature distribution claims`, () => {
-    assert.doesNotMatch(page.source, /<(?:script|img)\b[^>]*src="https?:/i);
+    const remoteImages = [...page.source.matchAll(/<img\b[^>]*src="([^"]+)"[^>]*>/gi)].filter((match) => match[1].startsWith("https:"));
+    for (const image of remoteImages) {
+      assert.equal(image[1], storeBadgeUrl, `${name}: unexpected remote image`);
+      assert.match(image[0], /alt="Get it from Microsoft"/);
+    }
+    assert.doesNotMatch(page.source, /<script\b[^>]*src="https?:/i);
     assert.doesNotMatch(page.source, /<iframe\b|<a\b[^>]*\sdownload(?:=|\s|>)/i);
     assert.doesNotMatch(page.source, /MIT[- ]licensed|<a\b[^>]*>[^<]*(?:Download (?:now|PodWin)|Get it from Microsoft)|fully compatible/i);
     assert.doesNotMatch(page.source, /on(?:click|load|error)=/i);
@@ -106,18 +120,37 @@ test("manifest icons and sitemap use the intended domain and real assets", async
   assert.match(await readFile(path.join(root, "robots.txt"), "utf8"), /Sitemap: https:\/\/podwin\.app\/sitemap\.xml/);
 });
 
-test("the preview discloses sample data and private-source/release limitations", async () => {
+test("the 1.0 page discloses availability and private-source/release facts", async () => {
   const home = await readFile(path.join(root, "index.html"), "utf8");
   const docs = await readFile(path.join(root, "docs", "index.html"), "utf8");
   assert.match(home, /not a screenshot or a live runtime connection/);
-  assert.match(home, /No public installer yet/);
+  assert.match(home, /Available from the Microsoft Store/);
+  assert.match(home, /9P48Q1CXZ8KH/);
   assert.match(home, /repository is currently private/);
   for (const page of [home, docs]) {
     assert.match(page, /Apache License 2\.0/);
-    assert.doesNotMatch(page, /license has not been selected|no source-code license has been selected|WSLc 3\.0\.3 or later/i);
+    assert.doesNotMatch(page, /license has not been selected|no source-code license has been selected|WSLc 3\.0\.3 or later|Foundation preview|No public installer|No public Store listing/i);
   }
-  assert.match(docs, /Compose file parsing, validation, planning, and execution/);
-  assert.match(docs, /No public installer or Microsoft Store listing/);
+  assert.match(docs, /does not load or run Compose files/);
+  assert.match(docs, /Microsoft Store/);
+  assert.match(docs, /9P48Q1CXZ8KH/);
+  assert.match(docs, /Windows 11 22H2 or later/);
+  assert.match(docs, /x64/);
+  assert.match(docs, /Microsoft WSLc 3\.0\.3 or 3\.0\.4/);
+  assert.match(docs, /Store package uses MSIX/);
+  assert.match(docs, /Direct \(Velopack\) channel is not released for PodWin 1\.0/);
+});
+
+test("the Store call to action, WinGet command, and publisher attribution are complete", async () => {
+  const home = await readFile(path.join(root, "index.html"), "utf8");
+  assert.equal((home.match(new RegExp(`href="${storeUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "g")) ?? []).length, 3);
+  assert.equal((home.match(new RegExp(`src="${storeBadgeUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "g")) ?? []).length, 2);
+  assert.match(home, new RegExp(`href="${storeProtocolUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
+  assert.match(home, /winget install --id 9P48Q1CXZ8KH --source msstore/);
+  assert.match(home, /data-copy="winget-command"/);
+  assert.match(home, /Store package identity: <code>MightyB\.PodWin<\/code>/);
+  assert.match(home, /Published on the Microsoft Store under MightyB by Brian Swiger \(mightybs\.com\)/);
+  assert.doesNotMatch(home, /Docker Engine|Docker Desktop|Docker API|Kubernetes|full Docker Compose/i);
 });
 
 test("the privacy policy page covers the distribution facts and is linked locally", async () => {
@@ -206,4 +239,37 @@ test("theme bootstrap honors valid overrides and otherwise follows the system", 
     });
     assert.equal(document.documentElement.dataset.theme, expected);
   }
+});
+
+test("the copy control writes the displayed WinGet command to the clipboard", async () => {
+  const script = await readFile(path.join(root, "assets", "site.js"), "utf8");
+  const button = {
+    hidden: true,
+    dataset: { copy: "winget-command" },
+    handlers: {},
+    addEventListener(type, handler) { this.handlers[type] = handler; },
+  };
+  const command = { textContent: "winget install --id 9P48Q1CXZ8KH --source msstore" };
+  const status = { textContent: "" };
+  let copied = "";
+  const document = {
+    querySelectorAll(selector) {
+      if (selector === "[data-copy]") return [button];
+      return [];
+    },
+    querySelector() { return null; },
+    getElementById(id) { return id === "winget-command" ? command : status; },
+  };
+  runInNewContext(script, {
+    console,
+    document,
+    navigator: { clipboard: { writeText: async (value) => { copied = value; } } },
+    URL,
+    URLSearchParams,
+    window: { isSecureContext: true, location: { href: origin, search: "" } },
+  });
+  assert.equal(button.hidden, false);
+  await button.handlers.click();
+  assert.equal(copied, command.textContent);
+  assert.equal(status.textContent, "Copied to clipboard.");
 });
