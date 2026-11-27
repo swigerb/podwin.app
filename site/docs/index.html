@@ -41,7 +41,7 @@
       <p class="eyebrow">PODWIN / DOCUMENTATION</p>
       <h1>A good place to begin.</h1>
       <p class="docs-lead">PodWin 1.0 is a native Windows 11 app for discovering and managing WSLc containers, with opt-in local Agent Sandboxes for coding tools.</p>
-      <div class="callout"><p><strong>Available from the Microsoft Store.</strong> PodWin 1.0 uses a Store bundle with native x64 and Arm64 packages and requires Windows 11 build 26300 or later.</p></div>
+      <div class="callout"><p><strong>Available from the Microsoft Store.</strong> PodWin 1.0 is an x64 app for Windows 11 22H2 or later with Microsoft WSLc 3.0.3 or 3.0.4.</p></div>
 
       <section id="overview">
         <h2>What PodWin 1.0 does</h2>
@@ -51,11 +51,11 @@
       <section id="requirements">
         <h2>Requirements</h2>
         <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th scope="col">Component</th><th scope="col">Current baseline</th></tr></thead><tbody>
-          <tr><td>Operating system</td><td>Windows 11 build 26300 or later.</td></tr>
-          <tr><td>Architecture</td><td>Native x64 and Arm64 Store packages. On Arm64 PCs, PodWin runs natively, but every WSLc operation is unavailable in this version.</td></tr>
-          <tr><td>Container runtime</td><td>Microsoft WSL 2.9.3 or later and WSLc client and runtime 3.0.3, 3.0.4, or 3.0.5, installed separately. PodWin never installs or changes WSL.</td></tr>
+          <tr><td>Operating system</td><td>Windows 11 22H2 or later.</td></tr>
+          <tr><td>Architecture</td><td>x64.</td></tr>
+          <tr><td>Container runtime</td><td>Microsoft WSLc 3.0.3 or 3.0.4, installed separately. PodWin never installs or changes WSL.</td></tr>
         </tbody></table></div>
-        <p id="runtime-limits"><strong>Runtime build qualifiers:</strong> On x64 PCs running a build later than 26300, WSLc 3.0.3 and 3.0.4 support reviewed read-only discovery, inventory, details, and logs without an owned session. WSLc 3.0.5 reads and PodWin-owned sessions require a qualified x64 host running Windows build 26300 exactly. That exact-build route also supports image pulls, network reads, volume inventory and details, and Agent Sandboxes. PodWin reports other version mismatches and does not create the owned session or pull images. These WSLc features remain unavailable on Arm64 PCs.</p>
+        <p id="runtime-limits"><strong>Supported runtime:</strong> PodWin uses Microsoft WSLc 3.0.3 or 3.0.4. PodWin reports other version mismatches rather than silently changing the runtime.</p>
         <p class="section-note">A detected CLI does not prove that the WSL components or an existing session are healthy. PodWin can still be used for dependency diagnosis without a session.</p>
       </section>
       <section id="development">
@@ -84,14 +84,14 @@ dotnet build src\PodWin.App\PodWin.App.csproj
       </section>
       <section id="boundaries">
         <h2>Scope and limitations</h2>
-        <p>PodWin connects to WSLc, not the Docker Engine socket. Existing Docker Desktop containers will not appear in PodWin.</p>
+        <p>PodWin is purpose-built for Microsoft WSLc sessions and local coding-agent sandboxes.</p>
         <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th scope="col">Available in PodWin 1.0</th><th scope="col">Future roadmap</th></tr></thead><tbody>
           <tr><td>Discover existing sessions; create, reconnect to, check, or terminate the session PodWin owns</td><td>Signed Direct releases</td></tr>
-          <tr><td>Browse containers and images, follow logs, and pull supported images</td><td>Arm64 runtime support for WSLc features</td></tr>
+          <tr><td>Browse containers and images, follow logs, and pull supported images</td><td>Broader runtime qualification</td></tr>
           <tr><td>Read networks and redacted volume inventory for a qualified running owned session</td><td>Network allowlisting beyond deny-all and owned VHDX reclamation</td></tr>
           <tr><td>Opt in to local Agent Sandboxes; the MCP listener is off by default and requests require confirmation</td><td>Completed accessibility qualification</td></tr>
         </tbody></table></div>
-        <p class="section-note">The Compose page describes a future contract; it does not load or run Compose files. Kubernetes, Docker API compatibility, and full Docker Compose parity are not promised.</p>
+        <p class="section-note">PodWin does not load or run Compose files. Available features are limited to the documented WSLc workflows.</p>
       </section>
       <section id="troubleshooting">
         <h2>Troubleshooting</h2>
@@ -156,7 +156,7 @@ dotnet build src\PodWin.App\PodWin.App.csproj
       <section id="distribution">
         <h2>Distribution and licensing</h2>
         <p>PodWin is free to use. The app is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>; its source repository remains private. Third-party components keep their own licenses.</p>
-        <p>PodWin 1.0 is available from the <a href="https://apps.microsoft.com/detail/9P48Q1CXZ8KH">Microsoft Store</a> (Store ID 9P48Q1CXZ8KH). The Store bundle uses MSIX and contains native x64 and Arm64 packages. Microsoft Store manages updates.</p>
+        <p>PodWin 1.0 is available from the <a href="https://apps.microsoft.com/detail/9P48Q1CXZ8KH">Microsoft Store</a> (Store ID 9P48Q1CXZ8KH). The Store package uses MSIX and supports x64. Microsoft Store manages updates.</p>
         <p>The Direct (Velopack) channel is not released for PodWin 1.0. This release is distributed through the Microsoft Store.</p>
       </section>
       <section id="resources">
@@ -167,7 +167,7 @@ dotnet build src\PodWin.App\PodWin.App.csproj
           <li><a href="https://learn.microsoft.com/windows/wsl/wsl-container">Microsoft WSL container documentation</a> and <a href="https://wsl.dev/">WSL developer documentation</a>.</li>
           <li><a href="https://learn.microsoft.com/windows/apps/winui/winui3/">WinUI 3</a>, <a href="https://fluent2.microsoft.design/">Fluent 2</a>, and <a href="https://docs.velopack.io/">Velopack</a>.</li>
         </ul>
-        <p>PodWin is an original implementation, inspired in part by <a href="https://github.com/seiggy/wslc-desktop">Zack Way's WSLc Desktop Manager</a>, Docker Desktop, and Podman Desktop. It does not copy their application code, branding, or assets.</p>
+        <p>PodWin is an original implementation for Microsoft WSLc. It does not copy another project's application code, branding, or assets.</p>
       </section>
       <section id="contact">
         <h2>Contact PodWin</h2>

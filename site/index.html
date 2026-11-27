@@ -48,12 +48,12 @@
       <div class="hero-copy">
         <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> BUILT FOR WINDOWS. POWERED BY WSLc.</p>
         <h1 id="hero-title">Your containers.<br>Right at home<br><span class="gradient-text">on Windows.</span></h1>
-        <p class="hero-description">Meet PodWin 1.0. A native Windows 11 app for WSLc container management, available from the Microsoft Store.</p>
+        <p class="hero-description">Meet PodWin 1.0. A native Windows 11 x64 app for WSLc container management, available from the Microsoft Store.</p>
         <div class="button-row">
-          <a class="button button-primary" href="https://apps.microsoft.com/detail/9P48Q1CXZ8KH">Get PodWin from Microsoft Store <span aria-hidden="true">&#8594;</span></a>
+          <a class="store-badge" href="https://apps.microsoft.com/detail/9P48Q1CXZ8KH?mode=direct"><img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Get it from Microsoft"></a>
           <a class="button button-secondary" href="docs/">Read the docs</a>
         </div>
-        <p class="hero-note"><span class="small-tag">PODWIN 1.0</span> Available from the Microsoft Store for Windows 11.</p>
+        <p class="hero-note"><span class="small-tag">PODWIN 1.0</span> Windows 11 22H2 or later, x64, with Microsoft WSLc 3.0.3 or 3.0.4.</p>
       </div>
       <div class="hero-art">
         <div class="orbit orbit-one" aria-hidden="true"></div>
@@ -66,9 +66,9 @@
 
     <div class="platform-strip">
       <div class="container platform-inner">
-        <span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M1 3l8-1v7H1zm10-1l8-1v8h-8zM1 11h8v7l-8-1zm10 0h8v8l-8-1z"/></svg> Windows 11</span>
+        <span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M1 3l8-1v7H1zm10-1l8-1v8h-8zM1 11h8v7l-8-1zm10 0h8v8l-8-1z"/></svg> Windows 11 22H2+</span>
         <span>WinUI 3 <span class="strip-plus">+</span> Fluent design</span>
-        <span>WSLc runtime</span>
+        <span>Microsoft WSLc 3.0.3 / 3.0.4</span>
         <span>Designed to be free to use</span>
       </div>
     </div>
@@ -87,7 +87,7 @@
               <button id="containers-tab" role="tab" aria-selected="true" aria-controls="containers-panel" tabindex="0" type="button"><span aria-hidden="true">&#9638;</span> Containers</button>
               <button id="images-tab" role="tab" aria-selected="false" aria-controls="images-panel" tabindex="-1" type="button"><span aria-hidden="true">&#9639;</span> Images</button>
             </div>
-            <div class="sidebar-footer"><span class="status-dot" aria-hidden="true"></span> WSLc, not Docker Engine</div>
+            <div class="sidebar-footer"><span class="status-dot" aria-hidden="true"></span> Microsoft WSLc</div>
           </div>
           <div class="preview-content">
             <div class="inventory-heading"><div><p class="eyebrow">AN HONEST VIEW OF YOUR ENVIRONMENT</p><h3>Clarity comes first.</h3></div><span class="session-label">Session: example-dev</span></div>
@@ -121,7 +121,7 @@
         <div class="principles-list">
           <div><span aria-hidden="true">+</span><p><strong>No surprise changes.</strong> Discovery never creates a session. You decide when PodWin creates its own session or pulls an image into it.</p></div>
           <div><span aria-hidden="true">+</span><p><strong>No app telemetry.</strong> Container logs stay in memory unless you choose to copy or save them. PodWin keeps its own redacted diagnostics on your device.</p></div>
-          <div><span aria-hidden="true">+</span><p><strong>No compatibility theater.</strong> PodWin works with WSLc, not the Docker Engine socket. Compose execution is still on the roadmap.</p></div>
+          <div><span aria-hidden="true">+</span><p><strong>Focused by design.</strong> PodWin is purpose-built for Microsoft WSLc sessions and local coding-agent sandboxes.</p></div>
         </div>
       </div>
     </section>
@@ -145,33 +145,41 @@
         <article class="roadmap-card">
           <span class="stage-label">PLANNED / RELEASE READINESS</span>
           <h3>Ship thoughtfully.</h3>
-          <ul><li>Signed Direct releases</li><li>Arm64 runtime support for WSLc features</li><li>Completed accessibility qualification</li></ul>
+          <ul><li>Broader runtime qualification</li><li>Completed accessibility qualification</li><li>Additional WSLc workflow coverage</li></ul>
         </article>
       </div>
-      <p class="section-note">Available features depend on your WSLc version. Kubernetes, Docker API compatibility, and full Docker Compose parity are not promised. <a href="docs/#boundaries">Read the scope and limitations <span aria-hidden="true">&#8594;</span></a></p>
+      <p class="section-note">Available features depend on the documented WSLc version. <a href="docs/#boundaries">Read the scope and limitations <span aria-hidden="true">&#8594;</span></a></p>
     </section>
 
     <section class="section container faq-section" aria-labelledby="faq-title">
       <div><p class="eyebrow">A FEW THINGS WORTH KNOWING</p><h2 id="faq-title">Before you dive in.</h2></div>
       <div class="faq-list">
         <details><summary>Can I get PodWin today?</summary><p>Yes. PodWin 1.0 is available from the <a href="https://apps.microsoft.com/detail/9P48Q1CXZ8KH">Microsoft Store</a> for Windows 11.</p></details>
-        <details><summary>Is this a replacement for Docker Desktop?</summary><p>Not today. PodWin manages WSLc containers. It does not connect to Docker Engine, and Docker Desktop containers will not appear here.</p></details>
-        <details><summary>What do I need to run it?</summary><p>You need Windows 11 build 26300 or later. The Store bundle contains native x64 and Arm64 packages. On Arm64 PCs, PodWin runs natively, but WSLc container features are unavailable in this version. WSLc 3.0.3 and 3.0.4 are supported on qualified x64 hosts; WSLc 3.0.5 and the PodWin-owned-session workflows require Windows build 26300 exactly. PodWin never installs or changes WSL. See the <a href="docs/#requirements">requirements</a>.</p></details>
+        <details><summary>Which runtime does PodWin use?</summary><p>PodWin manages Microsoft WSLc containers. It works with an existing supported WSLc session and can manage a PodWin-owned session.</p></details>
+        <details><summary>What do I need to run it?</summary><p>You need Windows 11 22H2 or later on x64, with Microsoft WSLc 3.0.3 or 3.0.4 installed separately. PodWin never installs or changes WSL. See the <a href="docs/#requirements">requirements</a>.</p></details>
         <details><summary>Is PodWin free and open source?</summary><p>PodWin is free to use and the app is licensed under Apache License 2.0. The project repository is currently private, so public source downloads are not available.</p></details>
       </div>
     </section>
 
-    <section class="container closing-section" aria-labelledby="closing-title">
+    <section class="container closing-section download-section" id="download" aria-labelledby="closing-title">
       <img src="assets/podwin-icon-512.png" alt="" width="88" height="88" loading="lazy">
-      <p class="eyebrow">A NATIVE HOME FOR WHAT'S NEXT</p>
-      <h2 id="closing-title">Make yourself at home.</h2>
-      <p>Get to know the foundation, understand the boundaries,<br class="desktop-break"> and follow PodWin as it takes shape.</p>
-      <div class="button-row"><a class="button button-primary" href="docs/">Read the docs <span aria-hidden="true">&#8594;</span></a><a class="button button-secondary" href="https://github.com/swigerb/PodWin">Project on GitHub <span aria-hidden="true">&#8599;</span></a></div>
-      <p class="fine-print">GitHub repository access is currently restricted. <a href="docs/#contact">Contact PodWin</a> for help or questions.</p>
+      <p class="eyebrow">DOWNLOAD PODWIN</p>
+      <h2 id="closing-title">Install from the Microsoft Store.</h2>
+      <p>Available from the Microsoft Store for Windows 11 22H2 or later, x64, with Microsoft WSLc 3.0.3 or 3.0.4.</p>
+      <div class="download-actions">
+        <a class="store-badge" href="https://apps.microsoft.com/detail/9P48Q1CXZ8KH?mode=direct"><img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Get it from Microsoft"></a>
+        <a class="button button-secondary" href="ms-windows-store://pdp/?productid=9P48Q1CXZ8KH">Open Microsoft Store on Windows</a>
+      </div>
+      <div class="code-block download-command">
+        <div class="code-heading"><span>WINGET / MICROSOFT STORE</span><button class="copy-button" type="button" data-copy="winget-command" hidden>Copy command</button></div>
+        <pre><code id="winget-command">winget install --id 9P48Q1CXZ8KH --source msstore</code></pre>
+      </div>
+      <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+      <p class="fine-print">Store package identity: <code>MightyB.PodWin</code>. <a href="docs/#requirements">Check the requirements</a> before installation or <a href="docs/#contact">Contact PodWin</a> for help.</p>
     </section>
   </main>
   <footer class="site-footer">
-    <div class="container footer-inner"><a class="footer-wordmark" href="./">Pod<span>Win</span></a><p>An independent Windows app. Not affiliated with or endorsed by Microsoft.</p><nav aria-label="Footer navigation"><a href="docs/">Docs</a><a href="privacy/">Privacy</a><a href="https://github.com/swigerb/podwin.app">Site source</a></nav></div>
+    <div class="container footer-inner"><a class="footer-wordmark" href="./">Pod<span>Win</span></a><div class="footer-copy"><p>An independent Windows app. Not affiliated with or endorsed by Microsoft.</p><p class="footer-attribution">Published on the Microsoft Store under MightyB by Brian Swiger (mightybs.com)</p></div><nav aria-label="Footer navigation"><a href="docs/">Docs</a><a href="privacy/">Privacy</a><a href="https://github.com/swigerb/podwin.app">Site source</a></nav></div>
   </footer>
 </body>
 </html>
