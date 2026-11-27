@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="../assets/theme.js"></script>
   <title>Privacy policy | PodWin</title>
-  <meta name="description" content="The PodWin privacy policy: local storage, diagnostics, network connections, and user controls.">
+  <meta name="description" content="The PodWin privacy policy: zero telemetry, local redacted diagnostics, consent controls, and support.">
   <meta name="theme-color" content="#101c30">
   <link rel="canonical" href="https://podwin.app/privacy/">
   <meta property="og:type" content="website">
@@ -36,7 +36,7 @@
         <a href="../docs/">Docs</a>
         <a href="../#roadmap">Roadmap</a>
         <a href="./" aria-current="page">Privacy</a>
-        <a class="nav-github" href="https://github.com/swigerb/PodWin" title="Application repository; access is currently restricted">GitHub <span aria-hidden="true">&#8599;</span></a>
+        <a class="nav-github" href="https://github.com/swigerb/podwin.app" title="Website source">GitHub <span aria-hidden="true">&#8599;</span></a>
       </nav>
       <button class="theme-toggle" type="button" aria-label="Switch to light theme" hidden>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
@@ -54,22 +54,23 @@
       <a href="../docs/#remove-retained-data">Remove retained data</a>
       <a href="#children">Children</a>
       <a href="#changes">Policy changes</a>
+      <a href="#support">Support</a>
       <a href="#contact">Contact</a>
     </nav>
     <div class="docs-content">
       <p class="eyebrow">PODWIN / PRIVACY</p>
       <h1>Privacy policy</h1>
-      <p class="docs-lead">Last updated: November 25, 2026</p>
+      <p class="docs-lead">Last updated: November 27, 2026</p>
 
       <section id="publisher">
         <h2>Who publishes PodWin</h2>
-        <p>PodWin is published by MightyB. This policy describes the PodWin desktop app and this website.</p>
+        <p>PodWin is published on the Microsoft Store under the MightyB handle by Brian Swiger (mightybs.com). The package identity is <code>MightyB.PodWin</code>. This policy describes the PodWin desktop app and this website.</p>
       </section>
 
       <section id="local-access">
         <h2>What PodWin accesses locally</h2>
         <p>PodWin reads local runtime versions, WSLc session names and state, container and image metadata, supported network and volume metadata, and requested output needed to show inventory, details, logs, or sandbox status. Names, paths, image references, and output can identify people or contain sensitive information.</p>
-        <p>PodWin does not include usage analytics, advertising, behavioral tracking, or remote crash reporting.</p>
+        <p>PodWin has zero app telemetry. It does not include usage analytics, advertising, behavioral tracking, or remote crash reporting.</p>
         <p>PodWin keeps local, redacted, size-bounded diagnostics. Diagnostic files contain fixed operation and failure events and numeric HRESULTs. They do not contain credentials, environment values, inspect payloads, command input or output, or container logs. Diagnostic files remain on your device and are never uploaded.</p>
       </section>
 
@@ -85,20 +86,21 @@
           <li>Direct Agent Sandbox data uses <code>%LOCALAPPDATA%\PodWin.Sandboxes.Direct</code>.</li>
           <li>Store Agent Sandbox data uses <code>%USERPROFILE%\.podwin\PodWin.Sandboxes.Store</code>.</li>
         </ul>
-        <p>These retained disks and ownership records survive the relevant session termination or app exit, and Direct uninstall. Store owned-session and sandbox data also survive uninstall and Reset. PodWin never deletes them or automatically cleans up stale Agent Sandbox directories. Destroy removes the sandbox container but not its retained disk or ownership record.</p>
+        <p>These retained disks and ownership records survive the relevant session termination or app exit, and Direct uninstall. Store owned-session and sandbox data also survive uninstall and Reset. PodWin never deletes owned-session data, and it never cleans up Agent Sandbox directories automatically. Destroy removes a sandbox's container but not its retained disk or ownership record. Starting with PodWin 1.1, you can permanently delete one stopped sandbox's retained data with <strong>Remove retained data</strong> on the Agent Sandboxes page. PodWin deletes it only after you confirm a dialog that names the sandbox, its folder, its files, and their size, and only after it checks that it created that folder, that nothing is using it, and that WSLc no longer lists that sandbox. It deletes only that sandbox's ownership record, disk files, and folder. It never follows links, never touches another folder, and never removes the <code>.podwin</code> folder or the sandbox storage folder itself. Deleted data does not go to the Recycle Bin and cannot be recovered. An agent's MCP request cannot start this removal. Local diagnostics record only that a removal finished, finished partly, or failed, with a numeric error code; they never record the sandbox ID, folder path, or size.</p>
         <p>The <code>.podwin</code> directory under the classic user profile roams with classic roaming profiles unless an administrator excludes it with <code>ExcludeProfileDirs</code>.</p>
         <p>The Direct build can add a per-user <code>PodWin</code> startup value under <code>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run</code>, but only after your confirmation in Settings. Its uninstall callback removes only that value. The optional Store <strong>Start at sign-in</strong> choice is a Windows startup task; Windows stores and manages that state. PodWin keeps no separate copy of the choice.</p>
-        <p>To remove retained session or sandbox data, follow the exact <a href="../docs/#remove-retained-data">Remove retained PodWin data</a> steps. Close PodWin, verify through a read-only WSLc session list that the exact registration is absent, and remove only the exact session or sandbox folder. Never remove the <code>.podwin</code> root or an unrelated session or sandbox folder.</p>
+        <p>To remove a stopped sandbox's retained data, use <strong>Remove retained data</strong> on the Agent Sandboxes page. To remove retained owned-session data, or sandbox data that PodWin cannot verify, follow the exact <a href="../docs/#remove-retained-data">Remove retained PodWin data</a> steps. Close PodWin, verify through a read-only WSLc session list that the exact registration is absent, and remove only the exact session or sandbox folder. Never remove the <code>.podwin</code> root or an unrelated session or sandbox folder.</p>
       </section>
 
       <section id="network">
         <h2>Network connections</h2>
         <p>The Direct build checks for stable releases against GitHub Releases only when you request it. It does not poll in the background or apply updates automatically. A download requires your confirmation, and GitHub can receive request metadata such as your source IP address.</p>
         <p>The Store build uses Microsoft Store-managed updates and excludes the Direct update code and Velopack. It performs no in-app update check.</p>
+        <p>Connecting to or changing a WSLc session is a deliberate action. PodWin shows a confirmation before an inventory read can activate an idle session and requires explicit consent before it creates, terminates, or otherwise mutates session state. Session and sandbox operations requested by an AI agent are not user consent.</p>
         <p>When you consent to an image pull, PodWin sends the exact image reference to the chosen public registry only after consent and only when the PodWin-owned session is confirmed Running. The registry receives associated network information such as your source IP address. This release does not support private registry credentials. PodWin does not send settings or diagnostics to the registry.</p>
-        <p>Network list and inspect reads use the local WSLc runtime, are read-only, and require a channel-owned session confirmed Running. PodWin does not enable them for an external session or before that confirmation.</p>
+        <p>Network list and inspect reads use the local WSLc runtime, are read-only, and require a channel-owned session you explicitly confirmed as Running. PodWin does not enable these reads for an external session, perform a network mutation, or change host network configuration.</p>
         <p>Agent Sandboxes are available in both the Direct and Store builds. Creating a sandbox pulls the requested public image after consent. The sandbox containers run with networking disabled and deny-all network policy; PodWin provides no destination allowlist beyond deny-all.</p>
-        <p>The MCP listener is off by default. Enable it only for the selected launch. While enabled, PodWin listens only on a local named pipe secured to the current Windows account. The Store package exposes a <code>podwin-mcp.exe</code> alias, and the Direct build uses a separate <code>PodWin.McpServer.exe</code> executable. Neither the listener nor the sidecar opens a network listener. Create, execute, and destroy requests require fresh consent in the app; a read-only sandbox list request does not require consent.</p>
+        <p>The local MCP server is opt-in and its listener is off by default. Enable it only for the selected launch. While enabled, PodWin listens only on a local named pipe secured to the current Windows account. The Store package exposes a <code>podwin-mcp.exe</code> alias, and the Direct build uses a separate <code>PodWin.McpServer.exe</code> executable. Neither the listener nor the sidecar opens a network listener. Create, execute, and destroy requests require fresh consent in the app; a read-only sandbox list request does not require consent.</p>
         <p>When you choose to open a published container port, PodWin asks Windows to open the link in your default browser. PodWin does not itself request the link.</p>
         <p>WSL and container workloads can make their own network requests. PodWin's local-first design does not control or prevent those requests.</p>
         <p>Microsoft's own privacy statement covers WSL, Windows, and the Microsoft Store: <a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a>.</p>
@@ -108,8 +110,8 @@
         <h2>Your controls</h2>
         <p>You choose what PodWin displays and what information you copy or share. A log snapshot leaves PodWin only when you choose Copy or Save. Copy puts the snapshot on the Windows clipboard. Save writes it to a file that you choose in the Windows save dialog.</p>
         <p>You can change appearance and startup preferences in Settings. You can enable MCP only for a launch and disable it later. You can remove Direct settings and logs manually while PodWin is closed.</p>
-        <p>Store settings and logs remain in package <code>LocalFolder</code> until Windows removes them through reset or uninstall. The external owned-session and Agent Sandbox directories require manual removal after the exact WSLc registrations are absent. PodWin provides the exact steps on this website and in the app's User Guide.</p>
-        <p>If you email support at support@podwin.app, the information you choose to send leaves your device. Registries and container workloads can have their own privacy policies.</p>
+        <p>Store settings and logs remain in package <code>LocalFolder</code> until Windows removes them through reset or uninstall. The external owned-session directory requires manual removal after the exact WSLc registration is absent. You can remove a stopped Agent Sandbox's retained data in the app with <strong>Remove retained data</strong>, or manually. PodWin provides the exact steps on this website and in the app's User Guide.</p>
+        <p>If you email support at <a href="mailto:support@podwin.app">support@podwin.app</a>, the information you choose to send leaves your device. Registries and container workloads can have their own privacy policies.</p>
       </section>
 
       <section id="children">
@@ -122,9 +124,27 @@
         <p>When PodWin changes how it handles data, MightyB may update this policy. The Last updated date at the top shows the latest revision.</p>
       </section>
 
+      <section id="support">
+        <h2>Support</h2>
+        <p>PodWin requires Windows 11 22H2 or later on x64 with Microsoft WSLc 3.0.3 or 3.0.4 installed separately.</p>
+        <h3>Troubleshooting</h3>
+        <ul>
+          <li><strong>WSLc is missing, access is denied, or discovery fails:</strong> Check that <code>%PROGRAMFILES%\WSL\wslc.exe</code> exists and that the installed runtime is supported. PodWin does not search other locations or install, update, or elevate WSLc. Fix the specific prerequisite reported by <strong>Discover</strong>, then retry.</li>
+          <li><strong>No sessions are listed:</strong> Discovery found no existing sessions; it does not create one. Choose <strong>Create session</strong> only if you want PodWin's owned session, review the dialog, and confirm it.</li>
+          <li><strong>A runtime, session, or inventory read fails:</strong> Return to <strong>Discover</strong>, choose the exact intended session, and confirm <strong>Connect</strong> again. A timeout, canceled read, or other error is not an empty inventory.</li>
+          <li><strong>PodWin reports a startup or storage-access problem:</strong> Read the surfaced path and error. Check local storage permissions and available space, and repair only the exact path PodWin names. Recovering PodWin does not require deleting environment disks, running <code>wsl --shutdown</code>, or changing WSL configuration.</li>
+        </ul>
+        <ul>
+          <li>General and technical support: <a href="mailto:support@podwin.app">support@podwin.app</a>.</li>
+          <li>Publisher contact: <a href="mailto:brian@mightybs.com">brian@mightybs.com</a>.</li>
+          <li>Report website or PodWin feedback in the public <a href="https://github.com/swigerb/podwin.app/issues">podwin.app issue tracker</a>.</li>
+        </ul>
+        <p>Do not include passwords, tokens, container secrets, or private logs in an initial support report. Redact personal or identifying information before sharing diagnostic text.</p>
+      </section>
+
       <section id="contact">
         <h2>Contact</h2>
-        <p>Questions or privacy requests: support@podwin.app.</p>
+        <p>Privacy questions or requests: <a href="mailto:support@podwin.app">support@podwin.app</a>.</p>
       </section>
 
       <a class="back-link" href="../">&#8592; Back to PodWin</a>
