@@ -50,8 +50,8 @@ Contributions and content
 
 Use an issue and focused pull request for website changes. Keep foundation
 capabilities and limitations accurate; planned features are not available
-features. Do not add a download button, Store badge, license claim, or update
-feed until the corresponding application decision and release gates are met.
+features. Keep Store links, package identifiers, and installation instructions
+aligned with the live Microsoft Store listing.
 
 The inventory illustration uses sample data and is not an app screenshot.
 The artwork is supplied by the PodWin owner; no third-party app assets or

@@ -56,18 +56,20 @@
     }
   }
 
-  const copyButton = document.querySelector("[data-copy]");
-  if (copyButton && window.isSecureContext && navigator.clipboard) {
-    copyButton.hidden = false;
-    copyButton.addEventListener("click", async () => {
-      const status = document.getElementById("copy-status");
-      try {
-        await navigator.clipboard.writeText(document.getElementById(copyButton.dataset.copy).textContent);
-        status.textContent = "Commands copied.";
-      } catch (error) {
-        console.error("Could not copy the development commands.", error);
-        status.textContent = "Copy was blocked by the browser. Select and copy the commands below.";
-      }
-    });
+  const copyButtons = [...document.querySelectorAll("[data-copy]")];
+  if (window.isSecureContext && navigator.clipboard) {
+    for (const copyButton of copyButtons) {
+      copyButton.hidden = false;
+      copyButton.addEventListener("click", async () => {
+        const status = document.getElementById(copyButton.dataset.copyStatus ?? "copy-status");
+        try {
+          await navigator.clipboard.writeText(document.getElementById(copyButton.dataset.copy).textContent);
+          status.textContent = "Copied to clipboard.";
+        } catch (error) {
+          console.error("Could not copy the displayed command.", error);
+          status.textContent = "Copy was blocked by the browser. Select and copy the command manually.";
+        }
+      });
+    }
   }
 })();
