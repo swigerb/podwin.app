@@ -8,6 +8,7 @@ import { runInNewContext } from "node:vm";
 const root = fileURLToPath(new URL("../../site/", import.meta.url));
 const origin = "https://podwin.app";
 const contactLinks = ["support", "info", "security", "privacy"].map((name) => `mailto:${name}@podwin.app`);
+const allowedEmailLinks = [...contactLinks, "mailto:brian@mightybs.com"];
 const listFiles = async (directory) => {
   const files = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -71,7 +72,7 @@ for (const page of pages) {
     for (const match of page.source.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
       const target = new URL(match[1], page.url);
       if (target.protocol === "mailto:") {
-        assert.ok(match[0].startsWith("href=") && contactLinks.includes(match[1]), `Unexpected email link: ${match[0]}`);
+        assert.ok(match[0].startsWith("href=") && allowedEmailLinks.includes(match[1]), `Unexpected email link: ${match[0]}`);
         continue;
       }
       if (target.origin !== origin) {
@@ -124,8 +125,8 @@ test("the privacy policy page covers the distribution facts and is linked locall
   const privacy = await readFile(path.join(root, "privacy", "index.html"), "utf8");
   const home = await readFile(path.join(root, "index.html"), "utf8");
   const docs = await readFile(path.join(root, "docs", "index.html"), "utf8");
-  assert.match(privacy, /Last updated: November 25, 2026/);
-  assert.match(privacy, /PodWin is published by MightyB/);
+  assert.match(privacy, /Last updated: November 27, 2026/);
+  assert.match(privacy, /PodWin is published on the Microsoft Store under the MightyB handle by Brian Swiger \(mightybs\.com\)/);
   assert.match(privacy, /support@podwin\.app/);
   assert.match(privacy, /usage analytics, advertising, behavioral tracking, or remote crash reporting/);
   assert.match(privacy, /Direct build/);
@@ -149,6 +150,24 @@ test("the privacy policy page covers the distribution facts and is linked locall
   assert.match(privacy, /href="\.\.\/docs\/#remove-retained-data"/);
   assert.match(home, /href="privacy\/">Privacy/);
   assert.match(docs, /href="\.\.\/privacy\/">Privacy/);
+});
+
+test("the privacy and support content states the local-only and consent contracts", async () => {
+  const privacy = await readFile(path.join(root, "privacy", "index.html"), "utf8");
+  assert.match(privacy, /PodWin has zero app telemetry/);
+  assert.match(privacy, /local, redacted, size-bounded diagnostics/);
+  assert.match(privacy, /Diagnostic files remain on your device and are never uploaded/);
+  assert.match(privacy, /explicitly confirmed as Running/);
+  assert.match(privacy, /explicit consent before it creates, terminates, or otherwise mutates session state/);
+  assert.match(privacy, /local MCP server is opt-in and its listener is off by default/);
+  assert.match(privacy, /An agent's MCP request cannot start this removal/);
+  const support = privacy.match(/<section id="support">([\s\S]*?)<\/section>/)?.[1];
+  assert.ok(support, "Missing support section");
+  assert.match(support, /Windows 11 22H2 or later on x64 with Microsoft WSLc 3\.0\.3 or 3\.0\.4/);
+  assert.match(support, /href="mailto:support@podwin\.app"/);
+  assert.match(support, /href="mailto:brian@mightybs\.com"/);
+  assert.match(support, /href="https:\/\/github\.com\/swigerb\/PodWin\/blob\/main\/docs\/troubleshooting\.rst"/);
+  assert.match(support, /href="https:\/\/github\.com\/swigerb\/PodWin\/issues"/);
 });
 
 test("retained-data removal instructions cover both channels and registration guards", async () => {
