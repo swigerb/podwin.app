@@ -36,7 +36,7 @@
         <a href="../docs/">Docs</a>
         <a href="../#roadmap">Roadmap</a>
         <a href="./" aria-current="page">Privacy</a>
-        <a class="nav-github" href="https://github.com/swigerb/PodWin" title="Application repository; access is currently restricted">GitHub <span aria-hidden="true">&#8599;</span></a>
+        <a class="nav-github" href="https://github.com/swigerb/podwin.app" title="Website source">GitHub <span aria-hidden="true">&#8599;</span></a>
       </nav>
       <button class="theme-toggle" type="button" aria-label="Switch to light theme" hidden>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
@@ -127,11 +127,17 @@
       <section id="support">
         <h2>Support</h2>
         <p>PodWin requires Windows 11 22H2 or later on x64 with Microsoft WSLc 3.0.3 or 3.0.4 installed separately.</p>
+        <h3>Troubleshooting</h3>
+        <ul>
+          <li><strong>WSLc is missing, access is denied, or discovery fails:</strong> Check that <code>%PROGRAMFILES%\WSL\wslc.exe</code> exists and that the installed runtime is supported. PodWin does not search other locations or install, update, or elevate WSLc. Fix the specific prerequisite reported by <strong>Discover</strong>, then retry.</li>
+          <li><strong>No sessions are listed:</strong> Discovery found no existing sessions; it does not create one. Choose <strong>Create session</strong> only if you want PodWin's owned session, review the dialog, and confirm it.</li>
+          <li><strong>A runtime, session, or inventory read fails:</strong> Return to <strong>Discover</strong>, choose the exact intended session, and confirm <strong>Connect</strong> again. A timeout, canceled read, or other error is not an empty inventory.</li>
+          <li><strong>PodWin reports a startup or storage-access problem:</strong> Read the surfaced path and error. Check local storage permissions and available space, and repair only the exact path PodWin names. Recovering PodWin does not require deleting environment disks, running <code>wsl --shutdown</code>, or changing WSL configuration.</li>
+        </ul>
         <ul>
           <li>General and technical support: <a href="mailto:support@podwin.app">support@podwin.app</a>.</li>
           <li>Publisher contact: <a href="mailto:brian@mightybs.com">brian@mightybs.com</a>.</li>
-          <li>Start with the <a href="../docs/#troubleshooting">website troubleshooting summary</a> or the <a href="https://github.com/swigerb/PodWin/blob/main/docs/troubleshooting.rst">PodWin troubleshooting guide</a>.</li>
-          <li>Search or open a report in <a href="https://github.com/swigerb/PodWin/issues">GitHub Issues</a>.</li>
+          <li>Report website or PodWin feedback in the public <a href="https://github.com/swigerb/podwin.app/issues">podwin.app issue tracker</a>.</li>
         </ul>
         <p>Do not include passwords, tokens, container secrets, or private logs in an initial support report. Redact personal or identifying information before sharing diagnostic text.</p>
       </section>

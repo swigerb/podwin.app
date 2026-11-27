@@ -90,6 +90,7 @@ for (const page of pages) {
   });
 
   test(`${name}: no third-party embeds, tracking, or premature distribution claims`, () => {
+    assert.doesNotMatch(page.source, /github\.com\/swigerb\/PodWin(?:[/"#?]|$)/i);
     assert.doesNotMatch(page.source, /<(?:script|img)\b[^>]*src="https?:/i);
     assert.doesNotMatch(page.source, /<iframe\b|<a\b[^>]*\sdownload(?:=|\s|>)/i);
     assert.doesNotMatch(page.source, /MIT[- ]licensed|<a\b[^>]*>[^<]*(?:Download (?:now|PodWin)|Get it from Microsoft)|fully compatible/i);
@@ -166,8 +167,13 @@ test("the privacy and support content states the local-only and consent contract
   assert.match(support, /Windows 11 22H2 or later on x64 with Microsoft WSLc 3\.0\.3 or 3\.0\.4/);
   assert.match(support, /href="mailto:support@podwin\.app"/);
   assert.match(support, /href="mailto:brian@mightybs\.com"/);
-  assert.match(support, /href="https:\/\/github\.com\/swigerb\/PodWin\/blob\/main\/docs\/troubleshooting\.rst"/);
-  assert.match(support, /href="https:\/\/github\.com\/swigerb\/PodWin\/issues"/);
+  assert.match(support, /%PROGRAMFILES%\\WSL\\wslc\.exe/);
+  assert.match(support, /does not search other locations or install, update, or elevate WSLc/);
+  assert.match(support, /Discovery found no existing sessions; it does not create one/);
+  assert.match(support, /A timeout, canceled read, or other error is not an empty inventory/);
+  assert.match(support, /does not require deleting environment disks, running <code>wsl --shutdown<\/code>, or changing WSL configuration/);
+  assert.match(support, /href="https:\/\/github\.com\/swigerb\/podwin\.app\/issues"/);
+  assert.doesNotMatch(support, /github\.com\/swigerb\/PodWin(?:[/"#?]|$)/);
 });
 
 test("retained-data removal instructions cover both channels and registration guards", async () => {

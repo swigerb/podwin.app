@@ -27,7 +27,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="../" aria-label="PodWin home"><img class="brand-dark" src="../assets/podwin-horizontal-dark.png" alt="PodWin" width="1600" height="480"><img class="brand-light" src="../assets/podwin-horizontal-light.png" alt="PodWin" width="1600" height="480"></a>
-      <nav aria-label="Main navigation"><a href="../#preview">The preview</a><a href="./" aria-current="page">Docs</a><a href="../#roadmap">Roadmap</a><a href="../privacy/">Privacy</a><a class="nav-github" href="https://github.com/swigerb/PodWin" title="Application repository; access is currently restricted">GitHub <span aria-hidden="true">&#8599;</span></a></nav>
+      <nav aria-label="Main navigation"><a href="../#preview">The preview</a><a href="./" aria-current="page">Docs</a><a href="../#roadmap">Roadmap</a><a href="../privacy/">Privacy</a><a class="nav-github" href="https://github.com/swigerb/podwin.app" title="Website source">GitHub <span aria-hidden="true">&#8599;</span></a></nav>
       <button class="theme-toggle" type="button" aria-label="Switch to light theme" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></button>
     </div>
   </header>
@@ -64,7 +64,7 @@
         <p>With access to the project repository, clone it and run these commands in a Windows PowerShell terminal. The app is self-contained when published; the SDK requirement here is for development.</p>
         <div class="code-block">
           <div class="code-heading"><span>POWERSHELL / DEVELOPMENT</span><button class="copy-button" type="button" data-copy="build-commands" hidden>Copy commands</button></div>
-          <pre><code id="build-commands">git clone https://github.com/swigerb/PodWin.git
+          <pre><code id="build-commands"># Obtain the PodWin source through an approved private-access workspace.
 cd PodWin
 dotnet test tests\PodWin.Core.Tests\PodWin.Core.Tests.csproj
 dotnet build src\PodWin.App\PodWin.App.csproj
@@ -165,7 +165,6 @@ dotnet build src\PodWin.App\PodWin.App.csproj
         <h2>Project and resources</h2>
         <ul>
           <li><a href="https://github.com/swigerb/podwin.app">Public website source</a> and <a href="https://github.com/swigerb/podwin.app/issues">website corrections and feedback</a>. This repository contains the site only, not the application source.</li>
-          <li><a href="https://github.com/swigerb/PodWin">PodWin on GitHub</a> and <a href="https://github.com/swigerb/PodWin/issues">issue tracker</a> (currently restricted to repository collaborators).</li>
           <li><a href="https://learn.microsoft.com/windows/wsl/wsl-container">Microsoft WSL container documentation</a> and <a href="https://wsl.dev/">WSL developer documentation</a>.</li>
           <li><a href="https://learn.microsoft.com/windows/apps/winui/winui3/">WinUI 3</a>, <a href="https://fluent2.microsoft.design/">Fluent 2</a>, and <a href="https://docs.velopack.io/">Velopack</a>.</li>
         </ul>
