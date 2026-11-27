@@ -7,7 +7,7 @@ import { runInNewContext } from "node:vm";
 
 const root = fileURLToPath(new URL("../../site/", import.meta.url));
 const origin = "https://podwin.app";
-const storeUrl = "https://apps.microsoft.com/detail/9P48Q1CXZ8KH?mode=direct";
+const storeUrl = "https://apps.microsoft.com/detail/9P48Q1CXZ8KH";
 const storeBadgeUrl = "https://get.microsoft.com/images/en-us%20dark.svg";
 const storeProtocolUrl = "ms-windows-store://pdp/?productid=9P48Q1CXZ8KH";
 const contactLinks = ["support", "info", "security", "privacy"].map((name) => `mailto:${name}@podwin.app`);
@@ -143,7 +143,7 @@ test("the 1.0 page discloses availability and private-source/release facts", asy
 
 test("the Store call to action, WinGet command, and publisher attribution are complete", async () => {
   const home = await readFile(path.join(root, "index.html"), "utf8");
-  assert.equal((home.match(new RegExp(`href="${storeUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "g")) ?? []).length, 2);
+  assert.equal((home.match(new RegExp(`href="${storeUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "g")) ?? []).length, 3);
   assert.equal((home.match(new RegExp(`src="${storeBadgeUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "g")) ?? []).length, 2);
   assert.match(home, new RegExp(`href="${storeProtocolUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
   assert.match(home, /winget install --id 9P48Q1CXZ8KH --source msstore/);
